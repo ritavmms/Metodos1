@@ -34,9 +34,14 @@ amostra <- dados %>%
 #Análise das variáveis apresentadas
 #**Matriculados**
 #Ramo-e-folhas
-stem(dados$MATRICULADOS, scale = 2)
 
-stem(amostra$MATRICULADOS, scale = 3)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(dados$MATRICULADOS, scale = 2))),
+    sep="\n")
+
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(amostra$MATRICULADOS, scale = 3))),
+    sep="\n")
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
@@ -87,9 +92,15 @@ amostra %>%
 
 #**Participacao**
 #Ramo-e-folhas
-stem(dados$PARTICIPACAO, scale= 2)
 
-stem(amostra$PARTICIPACAO, scale = 0.5)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(dados$PARTICIPACAO, scale= 2))),
+    sep="\n")
+
+
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(amostra$PARTICIPACAO, scale = 0.5))),
+    sep="\n")
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
@@ -158,9 +169,15 @@ amostra %>%
 
 #**Nota Lingua Portuguesa**
 #Ramo-e-folhas
-stem(dados$NOTA_LP)
 
-stem(amostra$NOTA_LP)
+
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(dados$NOTA_LP))),
+    sep="\n")
+
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(amostra$NOTA_LP))),
+    sep="\n")
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
@@ -213,9 +230,16 @@ amostra %>%
 
 #**Nota Matematica**
 #Ramo-e-folhas
-stem(dados$NOTA_MT)
 
-stem(amostra$NOTA_MT)
+
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(dados$NOTA_MT))),
+    sep="\n")
+
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(amostra$NOTA_MT))),
+    sep="\n")
+
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
@@ -332,41 +356,41 @@ assimetria_corrigida_pearson <- \(values) # Ainda e uma funcao so q com uma nota
   # quanto mais positivo mais assimetrico pra direita
 }
 
-###############################################
-?pivot_longer()#**OLHA ESSE HELP !!!!!!!!**#
-###############################################
-
 medidas_resumo_quantitativasD <- dados %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
   group_by(name) %>%
   summarize(media = mean(value),
-            variancia = var(value),
+            # variancia = var(value),
             desvio_padrao = sd(value),
             q1 = quantile(value, 0.25),
             mediana = quantile(value, 0.5),
             q3 = quantile(value, 0.75),
-            curt_def = curtose_definicao(value),
+            # curt_def = curtose_definicao(value),
             curt_excesso = excesso_curtose(value),
             assimetria = assimetria_corrigida_pearson(value))
 
-View(medidas_resumo_quantitativasD)
+kable(medidas_resumo_quantitativasD, 
+      digits = 2,
+      caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
 
 medidas_resumo_quantitativasA <- amostra %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
   group_by(name) %>%
   summarize(media = mean(value),
-            variancia = var(value),
+            # variancia = var(value),
             desvio_padrao = sd(value),
             q1 = quantile(value, 0.25),
             mediana = quantile(value, 0.5),
             q3 = quantile(value, 0.75),
-            curt_def = curtose_definicao(value),
+            # curt_def = curtose_definicao(value),
             curt_excesso = excesso_curtose(value),
             assimetria = assimetria_corrigida_pearson(value))
 
-View(medidas_resumo_quantitativasA)
+kable(medidas_resumo_quantitativasA,
+      digits = 2,
+      caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 50")
 
 
 
@@ -387,47 +411,47 @@ amostra %>%
 table(dados$LOCAL)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = LOCAL))
+  geom_bar(aes(x = LOCAL), fill= "#663399")
 
 table(amostra$LOCAL)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = LOCAL))
+  geom_bar(aes(x = LOCAL), fill= "#663399")
 
 
 table(dados$TAM_MUN)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = TAM_MUN))
+  geom_bar(aes(x = TAM_MUN), fill= "#663399")
 
 table(amostra$TAM_MUN)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = TAM_MUN))
+  geom_bar(aes(x = TAM_MUN), fill= "#663399")
 
 
 table(dados$ADM)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = ADM))
+  geom_bar(aes(x = ADM), fill= "#663399")
 
 table(amostra$ADM)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = ADM))
+  geom_bar(aes(x = ADM), fill= "#663399")
 
 
 
 table(dados$TAM_ESCOLA)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = TAM_ESCOLA))
+  geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")
 dados$TAM_ESCOLA %>% levels()
 
 table(amostra$TAM_ESCOLA)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = TAM_ESCOLA))
+  geom_bar(aes(x = TAM_ESCOLA),)
 amostra$TAM_ESCOLA %>% levels()
 
 ################################################################################

@@ -175,9 +175,13 @@ kable(medidas_resumo_quantitativasA,
 
 ```{r, echo=FALSE}
 #Ramo-efolhas:
-stem(dados$MATRICULADOS, scale = 2)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(dados$MATRICULADOS, scale = 2))),
+    sep="\n")
 
-stem(amostra$MATRICULADOS, scale = 3)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(amostra$MATRICULADOS, scale = 3))),
+    sep="\n")
 
 ```
 
@@ -257,9 +261,14 @@ amostra %>%
 
 ```{r, echo=FALSE}
 #Ramo-e-folhas
-stem(dados$PARTICIPACAO, scale= 2)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(dados$PARTICIPACAO, scale= 2))),
+    sep="\n")
 
-stem(amostra$PARTICIPACAO, scale = 0.5)
+
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(amostra$PARTICIPACAO, scale = 0.5))),
+    sep="\n")
 
 ```
 
@@ -296,12 +305,17 @@ dados %>%
   ggplot() +
   geom_histogram(aes(x = PARTICIPACAO,
                      y = after_stat(density)), 
-                 bins =  10)
+                 bins =  10,
+                 fill= "#663399")+
+  labs(title = "", y= "Densidade", x= "Participacao")
+
 amostra %>%
   ggplot() +
   geom_histogram(aes(x = PARTICIPACAO,
                      y = after_stat(density)), 
-                 bins =  10)
+                 bins =  10,
+                 fill= "#663399")+
+  labs(title = "", y= "Densidade", x= "Participacao")
 ```
 
   A distribuição das amostras se assemelham a uma exponencial, ou seja, com uma assímetria Positiva. A diferença do primeiro gráfico (com a amostra de 200) para o segundo (com a amostra de 50) nos leva a acreditar que a Participação da população pode se comportar como uma normal assimétrica para a direita.
@@ -332,9 +346,13 @@ amostra %>%
 
 ```{r, echo=FALSE}
 #Ramo-e-folhas
-stem(dados$NOTA_LP)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(dados$NOTA_LP))),
+    sep="\n")
 
-stem(amostra$NOTA_LP)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(amostra$NOTA_LP))),
+    sep="\n")
 
 ```
 
@@ -350,7 +368,7 @@ dados %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa") 
+  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa")
 
 amostra %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
@@ -417,9 +435,13 @@ amostra %>%
 
 ```{r, echo=FALSE}
 #Ramo-e-folhas
-stem(dados$NOTA_MT)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(dados$NOTA_MT))),
+    sep="\n")
 
-stem(amostra$NOTA_MT)
+cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
+           capture.output(stem(amostra$NOTA_MT))),
+    sep="\n")
 ```
 
   As notas de Matematica estão entre 154 e 270, sendo então maiores do que as de Lingua Portuguesa, com sua distribuição assemelhando-se a uma normal, estando bem distribuidas nas amostras.
