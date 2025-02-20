@@ -25,13 +25,323 @@ dados$TAM_ESCOLA<- factor(dados$TAM_ESCOLA,
                                      "50 a 99",
                                      "100 ou mais"))
 
+#Separando nossa amostra de 50
+#A seed é para garantir que será a mesma toda vez que rodarem o código
 set.seed(20242)
 amostra <- dados %>% 
   sample_n(size = 50)
 
+#Análise das variáveis apresentadas
+#**Matriculados**
+#Ramo-e-folhas
+stem(dados$MATRICULADOS)
+
+stem(amostra$MATRICULADOS)
+
+#Distribuição de frequências com intervalos de classe
+dados %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  ggplot() +
+  geom_bar(aes(x = mat))
+
+amostra %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  ggplot() +
+  geom_bar(aes(x = mat))
+
+
+#Histograma
+dados %>%
+  ggplot() +
+  geom_histogram(aes(x = MATRICULADOS,
+                     y = after_stat(density)), 
+                 bins =  10)
+amostra %>%
+  ggplot() +
+  geom_histogram(aes(x = MATRICULADOS,
+                     y = after_stat(density)), 
+                 bins =  10)
+
+#Boxplot
+dados %>%
+  ggplot() +
+  geom_boxplot(aes(y = PARTICIPACAO))
+
+amostra %>%
+  ggplot() +
+  geom_boxplot(aes(y = PARTICIPACAO))
+
+
+#**Participacao**
+#Ramo-e-folhas
+stem(dados$PARTICIPACAO)
+
+stem(amostra$PARTICIPACAO)
+
+#Distribuição de frequências com intervalos de classe
+dados %>%
+  mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
+                    labels = c("< 75 %", "75% ou mais"))) %>%
+  ggplot() +
+  geom_bar(aes(x = part))
+
+amostra %>%
+  mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
+                    labels = c("< 75 %", "75% ou mais"))) %>%
+  ggplot() +
+  geom_bar(aes(x = part))
+
+#Histograma
+dados %>%
+  ggplot() +
+  geom_histogram(aes(x = PARTICIPACAO,
+                     y = after_stat(density)), 
+                 bins =  10)
+amostra %>%
+  ggplot() +
+  geom_histogram(aes(x = PARTICIPACAO,
+                     y = after_stat(density)), 
+                 bins =  10)
+
+#Boxplot
+dados %>%
+  ggplot() +
+  geom_boxplot(aes(y = PARTICIPACAO))
+
+amostra %>%
+  ggplot() +
+  geom_boxplot(aes(y = PARTICIPACAO))
+
+
+#**MATRICULADOS X PARTICIPACAO**
+
+dados %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  select(mat, TAM_ESCOLA) %>%
+  pivot_longer(everything()) %>%
+  ggplot() +
+  geom_bar(aes(x = value, fill = name), 
+           position = position_dodge())
+
+amostra %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  select(mat, TAM_ESCOLA) %>%
+  pivot_longer(everything()) %>%
+  ggplot() +
+  geom_bar(aes(x = value, fill = name), 
+           position = position_dodge())
+
+#**Nota Lingua Portuguesa**
+#Ramo-e-folhas
+stem(dados$NOTA_LP)
+
+stem(amostra$NOTA_LP)
+
+#Distribuição de frequências com intervalos de classe
+dados %>%
+  mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota))
+
+amostra %>%
+  mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota))
+
+#Histograma
+dados %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_LP,
+                     y = after_stat(density)), 
+                 fill = "red", 
+                 alpha = 0.7, 
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_LP), sd = sd(dados$NOTA_LP)), 
+                linewidth = 1)
+amostra %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_LP,
+                     y = after_stat(density)), 
+                 fill = "red", 
+                 alpha = 0.7, 
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_LP), sd = sd(amostra$NOTA_LP)), 
+                linewidth = 1)
+
+#Boxplot
+dados %>%
+  ggplot() +
+  geom_boxplot(aes(y = NOTA_LP))
+
+
+amostra %>%
+  ggplot() +
+  geom_boxplot(aes(y = NOTA_LP))
+
+
+#**Nota Matematica**
+#Ramo-e-folhas
+stem(dados$NOTA_MT)
+dados$NOTA_MT %>% min()
+dados$NOTA_MT %>% max()
+
+stem(amostra$NOTA_MT)
+amostra$NOTA_MT %>% min()
+amostra$NOTA_MT %>% max()
+
+#Distribuição de frequências com intervalos de classe
+dados %>%
+  mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota))
+
+amostra %>%
+  mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota))
+
+#Histograma
+media = mean(dados$NOTA_MT)
+desvio  = sd(dados$NOTA_MT)
+dados %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_MT,
+                     y = after_stat(density)),
+                 fill = "red",
+                 alpha = 0.7,
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_MT), sd = sd(dados$NOTA_MT)), 
+                linewidth = 1) 
+
+media = mean(amostra$NOTA_MT)
+desvio  = sd(amostra$NOTA_MT)
+amostra %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_MT,
+                     y = after_stat(density)),
+                 fill = "red",
+                 alpha = 0.7,
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_MT), sd = sd(amostra$NOTA_MT)), 
+                linewidth = 1) 
+
+#Boxplot
+dados %>%
+  ggplot() +
+  geom_boxplot(aes(y = NOTA_MT))
+
+amostra %>%
+  ggplot() +
+  geom_boxplot(aes(y = NOTA_MT))
+
+
+#**Notas MT X LP**
+dados %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
+
+amostra %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
+
+
+dados %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  ggplot() +
+  geom_boxplot(aes(y = nota, x = materia))
+
+amostra %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  ggplot() +
+  geom_boxplot(aes(y = nota, x = materia))
+
+
+#**Medidas de: MATRICULADOS, PARTICIPACAO, NOTA_LP e NOTA_MT**
+# Funcoes auxiliares
+curtose <- function(values) (quantile(values, 0.75) - quantile(values, 0.25))/(2*(quantile(values, 0.9) - quantile(values, 0.1))) # calculo q achamos num PDF de uma aula na internet
+
+curtose_definicao <- function(values)
+{
+  n <- length(values)
+  m <- mean(values)
+  s <- sqrt((n-1) / n) * sd(values) # precisa ser o desvio populacional, por algum motivo
+  
+  ((sum(((values - m)^4)/n)) / (s^4))
+}
+
+excesso_curtose <- function(values)
+{
+  n <- length(values)
+  m <- mean(values)
+  s <- sqrt((n-1) / n) * sd(values) # precisa ser o desvio populacional, por algum motivo
+  
+  ((sum(((values - m)^4)/n)) / (s^4)) - 3 # a curtose de uma normal padrao e igual a 3
+}
+
+assimetria_corrigida_pearson <- \(values) # Ainda e uma funcao so q com uma notacao diferente, function() == \()
+{
+  n = length(values) # usando igual so por noia, mas e a msma coisa de usar o <-
+  m = mean(values)
+  s = sd(values)
+  
+  (sqrt((n * (n - 1)) / (n - 2))) * (sum(((values - m)^3)/n) / s^3)
+  # quanto mais perto de zero mais simetrico, 
+  # quanto mais negativo mais assimetrico pra esquerda
+  # quanto mais positivo mais assimetrico pra direita
+}
+
+###############################################
+?pivot_longer()#**OLHA ESSE HELP !!!!!!!!**#
+###############################################
+
+medidas_resumo_quantitativasD <- dados %>%
+  select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything()) %>% 
+  group_by(name) %>%
+  summarize(media = mean(value),
+            variancia = var(value),
+            desvio_padrao = sd(value),
+            q1 = quantile(value, 0.25),
+            mediana = quantile(value, 0.5),
+            q3 = quantile(value, 0.75),
+            curt_def = curtose_definicao(value),
+            curt_excesso = excesso_curtose(value),
+            assimetria = assimetria_corrigida_pearson(value))
+
+View(medidas_resumo_quantitativasD)
+
+medidas_resumo_quantitativasA <- amostra %>%
+  select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything()) %>% 
+  group_by(name) %>%
+  summarize(media = mean(value),
+            variancia = var(value),
+            desvio_padrao = sd(value),
+            q1 = quantile(value, 0.25),
+            mediana = quantile(value, 0.5),
+            q3 = quantile(value, 0.75),
+            curt_def = curtose_definicao(value),
+            curt_excesso = excesso_curtose(value),
+            assimetria = assimetria_corrigida_pearson(value))
+
+View(medidas_resumo_quantitativasA)
+
+
+
 #**OBJETIVO 1**
 #**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
-
 
 table(dados$REG)
 dados %>%
@@ -90,310 +400,13 @@ amostra %>%
   geom_bar(aes(x = TAM_ESCOLA))
 amostra$TAM_ESCOLA %>% levels()
 
-
-#**Matriculados**
-stem(dados$MATRICULADOS)
-
-stem(amostra$MATRICULADOS)
-
-
-dados %>%
-  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
-                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
-  ggplot() +
-  geom_bar(aes(x = mat))
-
-amostra %>%
-  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
-                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
-  ggplot() +
-  geom_bar(aes(x = mat))
-
-
-
-dados %>%
-  ggplot() +
-  geom_histogram(aes(x = MATRICULADOS,
-                     y = after_stat(density)), 
-                 bins =  10)
-amostra %>%
-  ggplot() +
-  geom_histogram(aes(x = MATRICULADOS,
-                     y = after_stat(density)), 
-                 bins =  10)
-
-
-dados %>%
-  ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
-
-amostra %>%
-  ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
-
-
-#**Participacao**
-stem(dados$PARTICIPACAO)
-
-stem(amostra$PARTICIPACAO)
-
-
-dados %>%
-  mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
-                    labels = c("< 75 %", "75% ou mais"))) %>%
-  ggplot() +
-  geom_bar(aes(x = part))
-
-amostra %>%
-  mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
-                    labels = c("< 75 %", "75% ou mais"))) %>%
-  ggplot() +
-  geom_bar(aes(x = part))
-
-
-dados %>%
-  ggplot() +
-  geom_histogram(aes(x = PARTICIPACAO,
-                     y = after_stat(density)), 
-                 bins =  10)
-amostra %>%
-  ggplot() +
-  geom_histogram(aes(x = PARTICIPACAO,
-                     y = after_stat(density)), 
-                 bins =  10)
-
-
-dados %>%
-  ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
-
-amostra %>%
-  ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
-
-
-#**MATRICULADOS X PARTICIPACAO**
-
-dados %>%
-  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
-                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
-  select(mat, TAM_ESCOLA) %>%
-  pivot_longer(everything()) %>%
-  ggplot() +
-  geom_bar(aes(x = value, fill = name), 
-           position = position_dodge())
-
-amostra %>%
-  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
-                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
-  select(mat, TAM_ESCOLA) %>%
-  pivot_longer(everything()) %>%
-  ggplot() +
-  geom_bar(aes(x = value, fill = name), 
-           position = position_dodge())
-
-#**Nota Lingua Portuguesa**
-stem(dados$NOTA_LP)
-
-stem(amostra$NOTA_LP)
-
-dados %>%
-  mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
-  ggplot() +
-  geom_bar(aes(x = nota))
-
-amostra %>%
-  mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
-  ggplot() +
-  geom_bar(aes(x = nota))
-
-
-dados %>%
-  ggplot() +
-  geom_histogram(aes(x = NOTA_LP,
-                     y = after_stat(density)), 
-                 fill = "red", 
-                 alpha = 0.7, 
-                 bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_LP), sd = sd(dados$NOTA_LP)), 
-                linewidth = 1)
-amostra %>%
-  ggplot() +
-  geom_histogram(aes(x = NOTA_LP,
-                     y = after_stat(density)), 
-                 fill = "red", 
-                 alpha = 0.7, 
-                 bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_LP), sd = sd(amostra$NOTA_LP)), 
-                linewidth = 1)
-
-
-dados %>%
-  ggplot() +
-  geom_boxplot(aes(y = NOTA_LP))
-
-
-amostra %>%
-  ggplot() +
-  geom_boxplot(aes(y = NOTA_LP))
-
-
-#**Nota Matematica**
-stem(dados$NOTA_MT)
-dados$NOTA_MT %>% min()
-dados$NOTA_MT %>% max()
-
-stem(amostra$NOTA_MT)
-amostra$NOTA_MT %>% min()
-amostra$NOTA_MT %>% max()
-
-
-dados %>%
-  mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
-  ggplot() +
-  geom_bar(aes(x = nota))
-
-amostra %>%
-  mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
-  ggplot() +
-  geom_bar(aes(x = nota))
-
-
-media = mean(dados$NOTA_MT)
-desvio  = sd(dados$NOTA_MT)
-dados %>%
-  ggplot() +
-  geom_histogram(aes(x = NOTA_MT,
-                     y = after_stat(density)),
-                 fill = "red",
-                 alpha = 0.7,
-                 bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_MT), sd = sd(dados$NOTA_MT)), 
-                linewidth = 1) 
-
-media = mean(amostra$NOTA_MT)
-desvio  = sd(amostra$NOTA_MT)
-amostra %>%
-  ggplot() +
-  geom_histogram(aes(x = NOTA_MT,
-                     y = after_stat(density)),
-                 fill = "red",
-                 alpha = 0.7,
-                 bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_MT), sd = sd(amostra$NOTA_MT)), 
-                linewidth = 1) 
-
-
-dados %>%
-  ggplot() +
-  geom_boxplot(aes(y = NOTA_MT))
-
-amostra %>%
-  ggplot() +
-  geom_boxplot(aes(y = NOTA_MT))
-
-
-#**Notas MT X LP**
-dados %>%
-  select(NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
-  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
-  ggplot() +
-  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
-
-amostra %>%
-  select(NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
-  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
-  ggplot() +
-  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
-
-
-dados %>%
-  select(NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
-  ggplot() +
-  geom_boxplot(aes(y = nota, x = materia))
-
-amostra %>%
-  select(NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
-  ggplot() +
-  geom_boxplot(aes(y = nota, x = materia))
-
-
-#**Medidas de: MATRICULADOS, PARTICIPACAO, NOTA_LP e NOTA_MT**
-
-aux <- dados$NOTA_MT
-N = length(aux)
-sqrt((N-1)/N) * sd(aux)
-sqrt((N-1)/N) * sqrt((sum((aux - mean(aux))^2))/ (N - 1))
-sqrt((sum((aux - mean(aux))^2))/ (N - 1))
-sqrt((mean((aux - mean(aux))^2)))
-
-# Funcoes auxiliares
-curtose <- function(values) (quantile(values, 0.75) - quantile(values, 0.25))/(2*(quantile(values, 0.9) - quantile(values, 0.1))) # calculo q achamos num PDF de uma aula na internet
-
-curtose_definicao <- function(values)
-{
-  n <- length(values)
-  m <- mean(values)
-  s <- sqrt((n-1) / n) * sd(values) # precisa ser o desvio populacional, por algum motivo
-  
-  ((sum(((values - m)^4)/n)) / (s^4))
-  # ref: https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm#:~:text=Skewness%20is%20a%20measure%20of,relative%20to%20a%20normal%20distribution.
-}
-
-excesso_curtose <- function(values)
-{
-  n <- length(values)
-  m <- mean(values)
-  s <- sqrt((n-1) / n) * sd(values) # precisa ser o desvio populacional, por algum motivo
-  
-  ((sum(((values - m)^4)/n)) / (s^4)) - 3 # a curtose de uma normal padrao e igual a 3
-  # ref: https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm#:~:text=Skewness%20is%20a%20measure%20of,relative%20to%20a%20normal%20distribution.
-}
-
-assimetria_corrigida_pearson <- \(values) # Ainda e uma funcao so q com uma notacao diferente, function() == \()
-{
-  n = length(values) # usando igual so por noia, mas e a msma coisa de usar o <-
-  m = mean(values)
-  s = sd(values)
-  
-  (sqrt((n * (n - 1)) / (n - 2))) * (sum(((values - m)^3)/n) / s^3)
-  # quanto mais perto de zero mais simetrico, 
-  # quanto mais negativo mais assimetrico pra esquerda
-  # quanto mais positivo mais assimetrico pra direita
-  # ref: https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm#:~:text=Skewness%20is%20a%20measure%20of,relative%20to%20a%20normal%20distribution.
-}
-
-###############################################
-?pivot_longer()#**OLHA ESSE HELP !!!!!!!!**#
-###############################################
-
-medidas_resumo_quantitativas <- dados %>%
-  select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything()) %>% 
-  group_by(name) %>%
-  summarize(media = mean(value),
-            variancia = var(value),
-            desvio_padrao = sd(value),
-            q1 = quantile(value, 0.25),
-            mediana = quantile(value, 0.5),
-            q3 = quantile(value, 0.75),
-            curt_def = curtose_definicao(value),
-            curt_excesso = excesso_curtose(value),
-            assimetria = assimetria_corrigida_pearson(value))
-
-View(medidas_resumo_quantitativas)
-
 ################################################################################
 ################################################################################
 ################################################################################
 
 #**OBJETIVO 2**
 #**Estimar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova**
-
+#Risco máximo de 5%
 alpha <- 0.05
 
 dados <- dados %>%
@@ -483,6 +496,7 @@ tabela1A
 # h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos e mais é diferente entre os locais
 chisq.test(tabela1D)
 chisq.test(tabela1A)
+# Ele vai smp dar a mensagem de aviso
 # conclusao: não encontramos evidencias para acreditar que a proporcao de esculas nos locais muda entre as escolas com mais e menos de 75% de inscritos
 
 tabela2D <- table(part75D, Dregiao)
