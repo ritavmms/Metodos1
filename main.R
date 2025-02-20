@@ -183,14 +183,30 @@ dados %>%
   geom_bar(aes(x = value, fill = name), 
            position = position_dodge())
 
+amostra %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  select(mat, TAM_ESCOLA) %>%
+  pivot_longer(everything()) %>%
+  ggplot() +
+  geom_bar(aes(x = value, fill = name), 
+           position = position_dodge())
 
 #**Nota Lingua Portuguesa**
 stem(dados$NOTA_LP)
+
+stem(amostra$NOTA_LP)
 
 dados %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota))
+
+amostra %>%
+  mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota))
+
 
 dados %>%
   ggplot() +
@@ -201,19 +217,47 @@ dados %>%
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_LP), sd = sd(dados$NOTA_LP)), 
                 linewidth = 1)
+amostra %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_LP,
+                     y = after_stat(density)), 
+                 fill = "red", 
+                 alpha = 0.7, 
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_LP), sd = sd(amostra$NOTA_LP)), 
+                linewidth = 1)
+
+
 dados %>%
   ggplot() +
   geom_boxplot(aes(y = NOTA_LP))
+
+
+amostra %>%
+  ggplot() +
+  geom_boxplot(aes(y = NOTA_LP))
+
 
 #**Nota Matematica**
 stem(dados$NOTA_MT)
 dados$NOTA_MT %>% min()
 dados$NOTA_MT %>% max()
 
+stem(amostra$NOTA_MT)
+amostra$NOTA_MT %>% min()
+amostra$NOTA_MT %>% max()
+
+
 dados %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota))
+
+amostra %>%
+  mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota))
+
 
 media = mean(dados$NOTA_MT)
 desvio  = sd(dados$NOTA_MT)
@@ -227,9 +271,27 @@ dados %>%
   geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_MT), sd = sd(dados$NOTA_MT)), 
                 linewidth = 1) 
 
+media = mean(amostra$NOTA_MT)
+desvio  = sd(amostra$NOTA_MT)
+amostra %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_MT,
+                     y = after_stat(density)),
+                 fill = "red",
+                 alpha = 0.7,
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_MT), sd = sd(amostra$NOTA_MT)), 
+                linewidth = 1) 
+
+
 dados %>%
   ggplot() +
   geom_boxplot(aes(y = NOTA_MT))
+
+amostra %>%
+  ggplot() +
+  geom_boxplot(aes(y = NOTA_MT))
+
 
 #**Notas MT X LP**
 dados %>%
@@ -239,7 +301,21 @@ dados %>%
   ggplot() +
   geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
 
+amostra %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
+
+
 dados %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  ggplot() +
+  geom_boxplot(aes(y = nota, x = materia))
+
+amostra %>%
   select(NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
   ggplot() +
@@ -249,8 +325,8 @@ dados %>%
 #**Medidas de: MATRICULADOS, PARTICIPACAO, NOTA_LP e NOTA_MT**
 
 aux <- dados$NOTA_MT
-sqrt((N-1)/N) * sd(aux)
 N = length(aux)
+sqrt((N-1)/N) * sd(aux)
 sqrt((N-1)/N) * sqrt((sum((aux - mean(aux))^2))/ (N - 1))
 sqrt((sum((aux - mean(aux))^2))/ (N - 1))
 sqrt((mean((aux - mean(aux))^2)))
@@ -292,7 +368,6 @@ assimetria_corrigida_pearson <- \(values) # Ainda e uma funcao so q com uma nota
 }
 
 ###############################################
-?pivot_longer()#TODO: OLHAR ESSE HELP
 ?pivot_longer()#**OLHA ESSE HELP !!!!!!!!**#
 ###############################################
 
@@ -326,6 +401,12 @@ dados <- dados %>%
 p_sum <- sum(dados$part75)
 p_test <- prop.test(p_sum, n = N, conf.level=1-alpha)
 
+amostra <- amostra %>%
+  mutate(part75 = PARTICIPACAO < 75)
+p_sum <- sum(amostra$part75)
+p_test <- prop.test(p_sum, n = N, conf.level=1-alpha)
+
+
 p_test$conf.int
 p_test$estimate
 
@@ -339,12 +420,14 @@ p_test$estimate
 # h0: nota LP de 2011 e menor ou igual a nota LP de 2009
 # h1: nota LP de 2011 e maior que a nota LP de 2009
 t.test(dados$NOTA_LP, mu=184.3, alternative = "greater", conf.level = 1-alpha)
+t.test(amostra$NOTA_LP, mu=184.3, alternative = "greater", conf.level = 1-alpha)
 # resultado: como p-valor = 0.4545 > 0.05, não rejeitamos h0
 # nao encontramos evidencias para acreditar que houve melhora na nota de LP entre  2009 e 2011
 
 # h0: nota MT de 2011 e menor ou igual a nota MT de 2009
 # h1: nota MT de 2011 e maior que a nota MT de 2009
 t.test(dados$NOTA_MT, mu=204.3, alternative = "greater", conf.level = 1-alpha)
+t.test(amostra$NOTA_MT, mu=204.3, alternative = "greater", conf.level = 1-alpha)
 # resultado: como p-valor = 0.6328 > 0.05, não rejeitamos h0
 # nao encontramos evidencias para acreditar que houve melhora na nota de MT entre  2009 e 2011
 
@@ -363,44 +446,53 @@ dados %>%
   group_by(LOCAL, REG) %>%
   summarise(count = n())
 
-local <- dados %>% 
-  # filter(part75) %>%
+amostra %>%
+  filter(part75) %>%
+  select(LOCAL, REG) %>%
+  group_by(LOCAL, REG) %>%
+  summarise(count = n())
+
+
+Dlocal <- dados %>%
   pull(LOCAL)
 
-regiao <- dados %>% 
-  # filter(part75) %>%
+Alocal <- amostra %>%
+  pull(LOCAL)
+
+
+Dregiao <- dados %>% 
   pull(REG)
 
-part75 <- dados %>%
+Aregiao <- amostra %>% 
+  pull(REG)
+
+
+part75D <- dados %>%
   pull(part75)
 
-tabela1 <- table(part75, local)
-tabela1
+part75A <- amostra %>%
+  pull(part75)
 
-addmargins(tabela1) # marginais
+tabela1D <- table(part75D, Dlocal)
+tabela1D
 
-# Frequencias relativas 
-prop.table(tabela1) # em relacao ao total
-prop.table(tabela1, 1) # em relacao as linhas
-prop.table(tabela1, 2) # em relacao as colunas
+tabela1A <- table(part75A, Alocal)
+tabela1A
 
 # h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos e mais é igual entre os locais
 # h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos e mais é diferente entre os locais
-chisq.test(tabela1)
+chisq.test(tabela1D)
+chisq.test(tabela1A)
 # conclusao: não encontramos evidencias para acreditar que a proporcao de esculas nos locais muda entre as escolas com mais e menos de 75% de inscritos
 
+tabela2D <- table(part75D, Dregiao)
+tabela2D
 
-tabela2 <- table(part75, regiao)
-tabela2
+tabela2A <- table(part75A, Aregiao)
+tabela2A
 
-addmargins(tabela2) # marginais
-
-# Frequencias relativas 
-prop.table(tabela2) # em relacao ao total
-prop.table(tabela2, 1) # em relacao as linhas
-prop.table(tabela2, 2) # em relacao as colunas
-
-chisq.test(tabela2)
+chisq.test(tabela2D)
+chisq.test(tabela2A)
 # conclusao: nao rejeitamos H0, acreditamos que as proporcoes sejam iguais
 
 
@@ -416,8 +508,19 @@ dados %>%
   geom_point(aes(x = NOTA_LP, y = NOTA_MT)) +
   geom_abline(slope = fit$coefficients[2], intercept = fit$coefficients[1], color = "red")
 
+amostra %>%
+  ggplot() +
+  geom_point(aes(x = NOTA_LP, y = NOTA_MT)) +
+  geom_abline(slope = fit$coefficients[2], intercept = fit$coefficients[1], color = "red")
+
+
 fit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
 summary(fit)
 
+fit <- lm(NOTA_MT ~ NOTA_LP,  data = amostra)
+summary(fit)
+
+
 cor.test(dados$NOTA_MT, dados$NOTA_LP, alternative="two.sided", method="pearson", conf.level=1-alpha)
+cor.test(amostra$NOTA_MT, amostra$NOTA_LP, alternative="two.sided", method="pearson", conf.level=1-alpha)
 # conclusao: Rejeitamos H0, ou seja, temos fortes indicios de que a correlação é diferente de zero
