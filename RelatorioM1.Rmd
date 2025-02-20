@@ -558,22 +558,24 @@ amostra %>%
 
 * Descrever as características das escolas e o desempenho de seus estudantes na Prova
 
-```{r, echo=FALSE}
-#**OBJETIVO 1**
-#**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
-
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #**OBJETIVO 1**
 #**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
 
 kable(table(dados$REG))
 dados %>%
   ggplot() +
-  geom_bar(aes(x = REG))
+  geom_bar(aes(x = REG), fill="#663399")
 
 table(amostra$REG)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = REG))
+  geom_bar(aes(x = REG), fill="#663399")
+
+```
+
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 
 
 table(dados$LOCAL)
@@ -586,6 +588,10 @@ amostra %>%
   ggplot() +
   geom_bar(aes(x = LOCAL), fill= "#663399")
 
+```
+
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 
 table(dados$TAM_MUN)
 dados %>%
@@ -598,6 +604,12 @@ amostra %>%
   geom_bar(aes(x = TAM_MUN), fill= "#663399")
 
 
+```
+
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+
+
 table(dados$ADM)
 dados %>%
   ggplot() +
@@ -608,6 +620,10 @@ amostra %>%
   ggplot() +
   geom_bar(aes(x = ADM), fill= "#663399")
 
+```
+
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 
 table(dados$TAM_ESCOLA)
 dados %>%
@@ -767,7 +783,7 @@ chisq.test(tabela2A)
 * Verificar se a nota em LP é um bom indicador para predizer a nota existe em MT, ou seja se estão associadas
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #**OBJETIVO 10**
 
 
@@ -776,8 +792,8 @@ Dfit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
 
 dados %>%
   ggplot() +
-  geom_point(aes(x = NOTA_LP, y = NOTA_MT)) +
-  geom_abline(slope = Dfit$coefficients[2], intercept = Dfit$coefficients[1], color = "red")
+  geom_point(aes(x = NOTA_LP, y = NOTA_MT), color= "#663399") +
+  geom_abline(slope = Dfit$coefficients[2], intercept = Dfit$coefficients[1], color = "black")
 
 
 Afit <- lm(NOTA_MT ~ NOTA_LP,  data = amostra)
@@ -785,8 +801,8 @@ Afit <- lm(NOTA_MT ~ NOTA_LP,  data = amostra)
 
 amostra %>%
   ggplot() +
-  geom_point(aes(x = NOTA_LP, y = NOTA_MT)) +
-  geom_abline(slope = Afit$coefficients[2], intercept = Afit$coefficients[1], color = "red")
+  geom_point(aes(x = NOTA_LP, y = NOTA_MT), color= "#663399") +
+  geom_abline(slope = Afit$coefficients[2], intercept = Afit$coefficients[1], color = "black")
 
 
 
