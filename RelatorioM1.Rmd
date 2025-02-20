@@ -52,7 +52,7 @@ seja se estão associadas
 
 _Vou colocar os códigos aqui pra conseguir rodar as coisas_
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 # Importando pacotes
 if(!require("pacman")) install.packages("pacman")
 pacman::p_load(latex2exp, moments, tidyverse)
@@ -174,11 +174,14 @@ View(medidas_resumo_quantitativasA)
 
 ```{r, echo=FALSE}
 #Ramo-efolhas:
-stem(dados$MATRICULADOS)
+stem(dados$MATRICULADOS, scale = 2)
 
-stem(amostra$MATRICULADOS)
+stem(amostra$MATRICULADOS, scale = 3)
 
 ```
+
+  Na amostra de 200 observações podemos testemunhar que a maioria das escolas tiveram menos de 100 matriculados. E na amostra de 50  isso se permanece verdade, a maioria tendo menos de 70 matriculados.
+
 
 ####### Distribuição de frequências com intervalos de classe
 
@@ -189,14 +192,19 @@ dados %>%
   mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
                    labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
   ggplot() +
-  geom_bar(aes(x = mat))
+  geom_bar(aes(x = mat), fill= "#663399") +
+  labs(title = "", y= "Quantidade", x= "Matriculados")
 
 amostra %>%
   mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
                    labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
   ggplot() +
-  geom_bar(aes(x = mat))
+  geom_bar(aes(x = mat), fill= "#663399") +
+  labs(title = "", y= "Quantidade", x= "Matriculados")
 ```
+
+  Os gráficos acima reforçam a ideia, acrescentando que na amostra de 200 observações a maioria das escolas tiveram entre 25 e 99 matriculados, e na amostra de 50 escolas descobrimos que existem poucas escolas com menos de 25 matriculados.
+
 
 ####### Histograma
 
@@ -206,14 +214,21 @@ dados %>%
   ggplot() +
   geom_histogram(aes(x = MATRICULADOS,
                      y = after_stat(density)), 
-                 bins =  10)
+                 bins =  10,
+                 fill= "#663399")+
+  labs(title = "", y= "Densidade", x= "Matriculados")
+
 amostra %>%
   ggplot() +
   geom_histogram(aes(x = MATRICULADOS,
                      y = after_stat(density)), 
-                 bins =  10)
-
+                 bins =  10,
+                 fill= "#663399")+
+  labs(title = "", y= "Densidade", x= "Matriculados")
 ```
+
+  Podemos observar que o histograma de 200 observações se assemelha ao gráfico de uma exponencial negativa, ou seja, com uma assimetria Negativa. O histograma de 50 escolas comporta de forma semelhante. 
+
 
 ####### Boxplot
 
@@ -221,12 +236,19 @@ amostra %>%
 #Boxplot
 dados %>%
   ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
+  geom_boxplot(aes(y = MATRICULADOS),
+               fill= "#663399")+
+  labs(title = "", y= "Quantidade de Matriculados", x= "")
 
 amostra %>%
   ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
+  geom_boxplot(aes(y = MATRICULADOS),
+               fill= "#663399")+
+  labs(title = "", y= "Quantidade de Matriculados", x= "")
 ```
+
+  Contemplando o primeiro gráfico reparamos que só temos outliers superiores e o limite superior é muito maior do que o inferior, enquanto o segundo gráfico por ser da amostra menos tem somente três outliers e o Q1 e o Q3 são mais simétricos, embora o limite superior ainda seja bem maior que o inferior.
+
 
 ###### Participação
 
@@ -234,11 +256,14 @@ amostra %>%
 
 ```{r, echo=FALSE}
 #Ramo-e-folhas
-stem(dados$PARTICIPACAO)
+stem(dados$PARTICIPACAO, scale= 2)
 
-stem(amostra$PARTICIPACAO)
+stem(amostra$PARTICIPACAO, scale = 0.5)
 
 ```
+
+  O Ramo-e-folhas da participação, por estar em porcentagem já apresenta o comportamento contrário ao de Matriculados, tendo a maior parte dos dados acima de 80 para ambas as amostras.
+
 
 ####### Distribuição de frequências com intervalos de classe
 
@@ -248,14 +273,19 @@ dados %>%
   mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
                     labels = c("< 75 %", "75% ou mais"))) %>%
   ggplot() +
-  geom_bar(aes(x = part))
+  geom_bar(aes(x = part), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Matriculados")
 
 amostra %>%
   mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
                     labels = c("< 75 %", "75% ou mais"))) %>%
   ggplot() +
-  geom_bar(aes(x = part))
+  geom_bar(aes(x = part), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Matriculados")
 ```
+
+  Os gráficos acima nos permitem visualizar melhor as observações feitas pelo Ramo-e-Folhas, e constatar que as amostras tem comportamentos muito semelhantes.
+
 
 ####### Histograma
 
@@ -273,19 +303,27 @@ amostra %>%
                  bins =  10)
 ```
 
+  A distribuição das amostras se assemelham a uma exponencial, ou seja, com uma assímetria Positiva. A diferença do primeiro gráfico (com a amostra de 200) para o segundo (com a amostra de 50) nos leva a acreditar que a Participação da população pode se comportar como uma normal assimétrica para a direita.
+
+
 ####### Boxplot
 
 ```{r, echo=FALSE}
 #Boxplot
 dados %>%
   ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
+  geom_boxplot(aes(y = PARTICIPACAO), fill= "#663399")+
+  labs(title = "", y= "% de Participacao", x= "")
 
 amostra %>%
   ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
+  geom_boxplot(aes(y = PARTICIPACAO), fill= "#663399")+
+  labs(title = "", y= "% de Participacao", x= "")
 
 ```
+
+  Os Boxplot nos permitem observar que a porcentagem de participação é maior do que 90 para as amostras. Eles tem o Q1 e o Q3 simétricos, com o Boxplot da amostra menor tendo o Q1 um pouco maior, o limite inferior é grande e a maior diferença do primeiro para o segundo é a quantidade de outiliers, o Boxplot com maior frequencia sendo o da amostra maior.
+
 
 ###### Notas Lingua Portuguesa
 
@@ -299,6 +337,9 @@ stem(amostra$NOTA_LP)
 
 ```
 
+  As notas de Lingua Portuguesa estão entre 135 e 237, com sua distribuição assemelhando-se a uma normal, estando bem distribuidas nas amostras.
+
+
 ####### Distribuição de frequências com intervalos de classe
 
 ```{r, echo=FALSE}
@@ -315,6 +356,9 @@ amostra %>%
   geom_bar(aes(x = nota))
 ```
 
+   A maior parte das notas de Lingua Portuguesa se encontram entre 150 e 200 pontos, sendo esse o comportamento de ambas as amostras. 
+
+
 ####### Histograma
 
 ```{r, echo=FALSE}
@@ -323,22 +367,27 @@ dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
                      y = after_stat(density)), 
-                 fill = "red", 
-                 alpha = 0.7, 
+                 fill = "#663399", 
+                 alpha = 0.9, 
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_LP), sd = sd(dados$NOTA_LP)), 
-                linewidth = 1)
+                linewidth = 1) +
+  labs(title = "", y= "Densidade", x= "Nota Lingua Portugesa")
+
 amostra %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
                      y = after_stat(density)), 
-                 fill = "red", 
-                 alpha = 0.7, 
+                 fill = "#663399", 
+                 alpha = 0.9, 
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_LP), sd = sd(amostra$NOTA_LP)), 
-                linewidth = 1)
-
+                linewidth = 1) +
+  labs(title = "", y= "Densidade", x= "Nota Lingua Portuguesa")
 ```
+
+  Os histogramas acima se assemelham a uma normal Leptocurtica, tendo a linha preta presente para evidenciar esse comportamento.
+
 
 ####### Boxplot
 
@@ -353,6 +402,9 @@ amostra %>%
   ggplot() +
   geom_boxplot(aes(y = NOTA_LP))
 ```
+
+  Os Boxplot não apresentam outliers, tendo os Quartis simétricos, o da amostra maior tem o Q1 levemente maior, assim como os Limites.
+
 
 ###### Notas Matemática
 

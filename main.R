@@ -34,22 +34,24 @@ amostra <- dados %>%
 #Análise das variáveis apresentadas
 #**Matriculados**
 #Ramo-e-folhas
-stem(dados$MATRICULADOS)
+stem(dados$MATRICULADOS, scale = 2)
 
-stem(amostra$MATRICULADOS)
+stem(amostra$MATRICULADOS, scale = 3)
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
   mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
                    labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
   ggplot() +
-  geom_bar(aes(x = mat))
+  geom_bar(aes(x = mat), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Matriculados")
 
 amostra %>%
   mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
                    labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
   ggplot() +
-  geom_bar(aes(x = mat))
+  geom_bar(aes(x = mat), fill= "#663399") +
+  labs(title = "", y= "Quantidade", x= "Matriculados")
 
 
 #Histograma
@@ -57,62 +59,81 @@ dados %>%
   ggplot() +
   geom_histogram(aes(x = MATRICULADOS,
                      y = after_stat(density)), 
-                 bins =  10)
+                 bins =  10,
+                 fill= "#663399")+
+  labs(title = "", y= "Densidade", x= "Matriculados")
+
 amostra %>%
   ggplot() +
   geom_histogram(aes(x = MATRICULADOS,
                      y = after_stat(density)), 
-                 bins =  10)
+                 bins =  10,
+                 fill= "#663399")+
+  labs(title = "", y= "Densidade", x= "Matriculados")
 
 #Boxplot
 dados %>%
   ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
+  geom_boxplot(aes(y = MATRICULADOS),
+               fill= "#663399")+
+  labs(title = "", y= "Quantidade de Matriculados", x= "")
 
 amostra %>%
   ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
+  geom_boxplot(aes(y = MATRICULADOS),
+               fill= "#663399")+
+  labs(title = "", y= "Quantidade de Matriculados", x= "")
 
 
 #**Participacao**
 #Ramo-e-folhas
-stem(dados$PARTICIPACAO)
+stem(dados$PARTICIPACAO, scale= 2)
 
-stem(amostra$PARTICIPACAO)
+stem(amostra$PARTICIPACAO, scale = 0.5)
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
   mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
                     labels = c("< 75 %", "75% ou mais"))) %>%
   ggplot() +
-  geom_bar(aes(x = part))
+  geom_bar(aes(x = part), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Matriculados")
 
 amostra %>%
   mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
                     labels = c("< 75 %", "75% ou mais"))) %>%
   ggplot() +
-  geom_bar(aes(x = part))
+  geom_bar(aes(x = part), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Matriculados")
+
 
 #Histograma
 dados %>%
   ggplot() +
   geom_histogram(aes(x = PARTICIPACAO,
                      y = after_stat(density)), 
-                 bins =  10)
+                 bins =  10,
+                 fill= "#663399")+
+  labs(title = "", y= "Densidade", x= "Participacao")
+
 amostra %>%
   ggplot() +
   geom_histogram(aes(x = PARTICIPACAO,
                      y = after_stat(density)), 
-                 bins =  10)
+                 bins =  10,
+                 fill= "#663399")+
+  labs(title = "", y= "Densidade", x= "Participacao")
 
 #Boxplot
 dados %>%
   ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
+  geom_boxplot(aes(y = PARTICIPACAO), fill= "#663399")+
+  labs(title = "", y= "% de Participacao", x= "")
 
 amostra %>%
   ggplot() +
-  geom_boxplot(aes(y = PARTICIPACAO))
+  geom_boxplot(aes(y = PARTICIPACAO), fill= "#663399")+
+  labs(title = "", y= "% de Participacao", x= "")
 
 
 #**MATRICULADOS X PARTICIPACAO**
@@ -145,42 +166,49 @@ stem(amostra$NOTA_LP)
 dados %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota))
+  geom_bar(aes(x = nota), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa") 
 
 amostra %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota))
+  geom_bar(aes(x = nota), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa")
 
 #Histograma
 dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
                      y = after_stat(density)), 
-                 fill = "red", 
-                 alpha = 0.7, 
+                 fill = "#663399", 
+                 alpha = 0.9, 
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_LP), sd = sd(dados$NOTA_LP)), 
-                linewidth = 1)
+                linewidth = 1) +
+  labs(title = "", y= "Densidade", x= "Nota Lingua Portugesa")
+
 amostra %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
                      y = after_stat(density)), 
-                 fill = "red", 
-                 alpha = 0.7, 
+                 fill = "#663399", 
+                 alpha = 0.9, 
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_LP), sd = sd(amostra$NOTA_LP)), 
-                linewidth = 1)
+                linewidth = 1) +
+  labs(title = "", y= "Densidade", x= "Nota Lingua Portuguesa")
 
 #Boxplot
 dados %>%
   ggplot() +
-  geom_boxplot(aes(y = NOTA_LP))
+  geom_boxplot(aes(y = NOTA_LP), fill= "#663399")+
+  labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
 
 
 amostra %>%
   ggplot() +
-  geom_boxplot(aes(y = NOTA_LP))
+  geom_boxplot(aes(y = NOTA_LP), fill= "#663399")+
+  labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
 
 
 #**Nota Matematica**
