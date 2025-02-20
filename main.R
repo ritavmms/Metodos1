@@ -1,6 +1,6 @@
 # Importando pacotes
 if(!require("pacman")) install.packages("pacman")
-pacman::p_load(latex2exp, moments, tidyverse)
+pacman::p_load(latex2exp, knitr, tidyverse)
 
 
 #Lendo os dados
@@ -214,23 +214,21 @@ amostra %>%
 #**Nota Matematica**
 #Ramo-e-folhas
 stem(dados$NOTA_MT)
-dados$NOTA_MT %>% min()
-dados$NOTA_MT %>% max()
 
 stem(amostra$NOTA_MT)
-amostra$NOTA_MT %>% min()
-amostra$NOTA_MT %>% max()
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota))
+  geom_bar(aes(x = nota), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Nota Matemática")
 
 amostra %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota))
+  geom_bar(aes(x = nota), fill= "#663399") +
+  labs(title = "", y= "Quantidade", x= "Nota Matemática")
 
 #Histograma
 media = mean(dados$NOTA_MT)
@@ -239,11 +237,12 @@ dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_MT,
                      y = after_stat(density)),
-                 fill = "red",
-                 alpha = 0.7,
+                 fill = "#663399",
+                 alpha = 0.9,
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_MT), sd = sd(dados$NOTA_MT)), 
-                linewidth = 1) 
+                linewidth = 1)+
+  labs(title = "", y= "Densidade", x= "Nota Matematica")
 
 media = mean(amostra$NOTA_MT)
 desvio  = sd(amostra$NOTA_MT)
@@ -251,20 +250,23 @@ amostra %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_MT,
                      y = after_stat(density)),
-                 fill = "red",
-                 alpha = 0.7,
+                 fill = "#663399",
+                 alpha = 0.9,
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_MT), sd = sd(amostra$NOTA_MT)), 
-                linewidth = 1) 
+                linewidth = 1)+
+  labs(title = "", y= "Densidade", x= "Nota Matematica")
 
 #Boxplot
 dados %>%
   ggplot() +
-  geom_boxplot(aes(y = NOTA_MT))
+  geom_boxplot(aes(y = NOTA_MT), fill= "#663399")+
+  labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
 
 amostra %>%
   ggplot() +
-  geom_boxplot(aes(y = NOTA_MT))
+  geom_boxplot(aes(y = NOTA_MT), fill= "#663399")+
+  labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
 
 
 #**Notas MT X LP**

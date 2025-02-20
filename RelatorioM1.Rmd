@@ -3,6 +3,7 @@ title: "RelatorioM1"
 author: "Rita"
 date: "2025-02-20"
 output: pdf_document
+cache: true
 ---
 
 OBS: A apresentação da atividade deverá seguir as normas ABNT de apresentação de relatórios de pesquisa e as Normas de Apresentação Tabular.
@@ -55,7 +56,7 @@ _Vou colocar os códigos aqui pra conseguir rodar as coisas_
 ```{r, include=FALSE}
 # Importando pacotes
 if(!require("pacman")) install.packages("pacman")
-pacman::p_load(latex2exp, moments, tidyverse)
+pacman::p_load(latex2exp, knitr, tidyverse)
 
 
 #Lendo os dados
@@ -130,41 +131,41 @@ assimetria_corrigida_pearson <- \(values) # Ainda e uma funcao so q com uma nota
   # quanto mais positivo mais assimetrico pra direita
 }
 
-###############################################
-?pivot_longer()#**OLHA ESSE HELP !!!!!!!!**#
-###############################################
-
 medidas_resumo_quantitativasD <- dados %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
   group_by(name) %>%
   summarize(media = mean(value),
-            variancia = var(value),
+            # variancia = var(value),
             desvio_padrao = sd(value),
             q1 = quantile(value, 0.25),
             mediana = quantile(value, 0.5),
             q3 = quantile(value, 0.75),
-            curt_def = curtose_definicao(value),
+            # curt_def = curtose_definicao(value),
             curt_excesso = excesso_curtose(value),
             assimetria = assimetria_corrigida_pearson(value))
 
-View(medidas_resumo_quantitativasD)
+kable(medidas_resumo_quantitativasD, 
+      digits = 2,
+      caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
 
 medidas_resumo_quantitativasA <- amostra %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
   group_by(name) %>%
   summarize(media = mean(value),
-            variancia = var(value),
+            # variancia = var(value),
             desvio_padrao = sd(value),
             q1 = quantile(value, 0.25),
             mediana = quantile(value, 0.5),
             q3 = quantile(value, 0.75),
-            curt_def = curtose_definicao(value),
+            # curt_def = curtose_definicao(value),
             curt_excesso = excesso_curtose(value),
             assimetria = assimetria_corrigida_pearson(value))
 
-View(medidas_resumo_quantitativasA)
+kable(medidas_resumo_quantitativasA,
+      digits = 2,
+      caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 50")
 
 ```
 
@@ -348,12 +349,14 @@ stem(amostra$NOTA_LP)
 dados %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota))
+  geom_bar(aes(x = nota), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa") 
 
 amostra %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota))
+  geom_bar(aes(x = nota), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa")
 ```
 
    A maior parte das notas de Lingua Portuguesa se encontram entre 150 e 200 pontos, sendo esse o comportamento de ambas as amostras. 
@@ -395,12 +398,14 @@ amostra %>%
 #Boxplot
 dados %>%
   ggplot() +
-  geom_boxplot(aes(y = NOTA_LP))
+  geom_boxplot(aes(y = NOTA_LP), fill= "#663399")+
+  labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
 
 
 amostra %>%
   ggplot() +
-  geom_boxplot(aes(y = NOTA_LP))
+  geom_boxplot(aes(y = NOTA_LP), fill= "#663399")+
+  labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
 ```
 
   Os Boxplot não apresentam outliers, tendo os Quartis simétricos, o da amostra maior tem o Q1 levemente maior, assim como os Limites.
@@ -413,13 +418,11 @@ amostra %>%
 ```{r, echo=FALSE}
 #Ramo-e-folhas
 stem(dados$NOTA_MT)
-dados$NOTA_MT %>% min()
-dados$NOTA_MT %>% max()
 
 stem(amostra$NOTA_MT)
-amostra$NOTA_MT %>% min()
-amostra$NOTA_MT %>% max()
 ```
+
+  As notas de Matematica estão entre 154 e 270, sendo então maiores do que as de Lingua Portuguesa, com sua distribuição assemelhando-se a uma normal, estando bem distribuidas nas amostras.
 
 ####### Distribuição de frequências com intervalos de classe
 
@@ -428,13 +431,17 @@ amostra$NOTA_MT %>% max()
 dados %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota))
+  geom_bar(aes(x = nota), fill= "#663399")+
+  labs(title = "", y= "Quantidade", x= "Nota Matemática")
 
 amostra %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota))
+  geom_bar(aes(x = nota), fill= "#663399") +
+  labs(title = "", y= "Quantidade", x= "Nota Matemática")
 ```
+
+
 
 ####### Histograma
 
@@ -447,11 +454,12 @@ dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_MT,
                      y = after_stat(density)),
-                 fill = "red",
-                 alpha = 0.7,
+                 fill = "#663399",
+                 alpha = 0.9,
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_MT), sd = sd(dados$NOTA_MT)), 
-                linewidth = 1) 
+                linewidth = 1)+
+  labs(title = "", y= "Densidade", x= "Nota Matematica")
 
 media = mean(amostra$NOTA_MT)
 desvio  = sd(amostra$NOTA_MT)
@@ -459,12 +467,12 @@ amostra %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_MT,
                      y = after_stat(density)),
-                 fill = "red",
-                 alpha = 0.7,
+                 fill = "#663399",
+                 alpha = 0.9,
                  bins = 10) +
   geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_MT), sd = sd(amostra$NOTA_MT)), 
-                linewidth = 1) 
-
+                linewidth = 1)+
+  labs(title = "", y= "Densidade", x= "Nota Matematica")
 ```
 
 ####### Boxplot
@@ -473,11 +481,14 @@ amostra %>%
 #Boxplot
 dados %>%
   ggplot() +
-  geom_boxplot(aes(y = NOTA_MT))
+  geom_boxplot(aes(y = NOTA_MT), fill= "#663399")+
+  labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
 
 amostra %>%
   ggplot() +
-  geom_boxplot(aes(y = NOTA_MT))
+  geom_boxplot(aes(y = NOTA_MT), fill= "#663399")+
+  labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
+
 ```
 
 #### Categóricas
@@ -575,6 +586,7 @@ amostra$TAM_ESCOLA %>% levels()
 #**OBJETIVO 2**
 #Risco máximo de 5%
 alpha <- 0.05
+N <- nrow(dados)
 
 dados <- dados %>%
   mutate(part75 = PARTICIPACAO < 75)
@@ -714,22 +726,26 @@ chisq.test(tabela2A)
 
 ```{r, echo=FALSE}
 #**OBJETIVO 10**
+
+
+Dfit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
+# summary(fit) # Não colocar esse summary pq vcs nao vao saber interpretar a regressao
+
 dados %>%
   ggplot() +
   geom_point(aes(x = NOTA_LP, y = NOTA_MT)) +
-  geom_abline(slope = fit$coefficients[2], intercept = fit$coefficients[1], color = "red")
+  geom_abline(slope = Dfit$coefficients[2], intercept = Dfit$coefficients[1], color = "red")
+
+
+Afit <- lm(NOTA_MT ~ NOTA_LP,  data = amostra)
+# summary(fit) # Não colocar esse summary pq vcs nao vao saber interpretar a regressao
 
 amostra %>%
   ggplot() +
   geom_point(aes(x = NOTA_LP, y = NOTA_MT)) +
-  geom_abline(slope = fit$coefficients[2], intercept = fit$coefficients[1], color = "red")
+  geom_abline(slope = Afit$coefficients[2], intercept = Afit$coefficients[1], color = "red")
 
 
-fit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
-summary(fit)
-
-fit <- lm(NOTA_MT ~ NOTA_LP,  data = amostra)
-summary(fit)
 
 
 cor.test(dados$NOTA_MT, dados$NOTA_LP, alternative="two.sided", method="pearson", conf.level=1-alpha)
