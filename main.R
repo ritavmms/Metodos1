@@ -360,58 +360,12 @@ medidas_resumo_quantitativasD <- dados %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
   group_by(name) %>%
-  summarize(media = mean(value),
-            # variancia = var(value),
-            desvio_padrao = sd(value),
-            q1 = quantile(value, 0.25),
-            mediana = quantile(value, 0.5),
-            q3 = quantile(value, 0.75),
-            # curt_def = curtose_definicao(value),
-            curt_excesso = excesso_curtose(value),
-            assimetria = assimetria_corrigida_pearson(value))
-
-<<<<<<< HEAD
-kable(medidas_resumo_quantitativasD, 
-      digits = 2,
-      caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
-=======
-# View(medidas_resumo_quantitativasD)
-medidas_resumo_quantitativasD
-medidas_resumo_quantitativasD 
->>>>>>> f771cc5 (Ajusted table quantitative measures)
-
-kable(medidas_resumo_quantitativasD, 
-      digits = 2,
-      caption = "Medidas resumo do N\\textordmasculine{} de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
-?kable
-
-dados %>%
-  select(-Tipo) %>%
-  pivot_longer(everything()) %>%
-  group_by(name) %>%
   summarise(`Média` = mean(value),
             `Desvio Padrão` = sd(value),
             `Minimo` = min(value),
-            `Máximo` = max(value),
-            `1\\textordmasculine Quartil` = quantile(value, 0.25),
+            `Q1` = quantile(value, 0.25),
             `Mediana` = median(value),
-            `3\\textordmasculine Quartil` = quantile(value, 0.75)) %>%
-  column_to_rownames(var = "name") %>%
-  as.matrix() %>%
-  t() %>%
-  as.data.frame() %>%
-  rownames_to_column(var = "Medida")
-
-medidas_resumo_quantitativasD <- dados %>%
-  select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything()) %>% 
-  group_by(name) %>%
-  summarise(`Média` = mean(value),
-            `Desvio Padrão` = sd(value),
-            `Minimo` = min(value),
-            `1\\textordmasculine{} Quartil` = quantile(value, 0.25),
-            `Mediana` = median(value),
-            `3\\textordmasculine{} Quartil` = quantile(value, 0.75), 
+            `Q3` = quantile(value, 0.75), 
             `Máximo` = max(value),
             `Excesso de Curtose` = excesso_curtose(value), 
             `Assimetria` = assimetria_corrigida_pearson(value)) %>%
@@ -420,102 +374,108 @@ medidas_resumo_quantitativasD <- dados %>%
   t() %>%
   as.data.frame() %>%
   rownames_to_column(var = "Medida") %>% 
-  rename(`N\\textordmasculine{} de matriculados` = MATRICULADOS,
+  rename(`N de matriculados` = MATRICULADOS,
          `Participação` = PARTICIPACAO,
          `Nota de Lingua Portuguesa` = NOTA_LP,
          `Nota de Matemática` = NOTA_MT)
 
-medidas_resumo_quantitativasD
-
-summarize(media = mean(value),
-          # variancia = var(value),
-          desvio_padrao = sd(value),
-          q1 = quantile(value, 0.25),
-          mediana = quantile(value, 0.5),
-          q3 = quantile(value, 0.75),
-          # curt_def = curtose_definicao(value),
-          curt_excesso = excesso_curtose(value),
-          assimetria = assimetria_corrigida_pearson(value))
+kable(medidas_resumo_quantitativasD, 
+      digits = 2,
+      caption = "Medidas resumo do N de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
 
 medidas_resumo_quantitativasA <- amostra %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
   group_by(name) %>%
-  summarize(media = mean(value),
-            # variancia = var(value),
-            desvio_padrao = sd(value),
-            q1 = quantile(value, 0.25),
-            mediana = quantile(value, 0.5),
-            q3 = quantile(value, 0.75),
-            # curt_def = curtose_definicao(value),
-            curt_excesso = excesso_curtose(value),
-            assimetria = assimetria_corrigida_pearson(value))
+  summarise(`Média` = mean(value),
+            `Desvio Padrão` = sd(value),
+            `Minimo` = min(value),
+            `Q1` = quantile(value, 0.25),
+            `Mediana` = median(value),
+            `Q3` = quantile(value, 0.75), 
+            `Máximo` = max(value),
+            `Excesso de Curtose` = excesso_curtose(value), 
+            `Assimetria` = assimetria_corrigida_pearson(value)) %>%
+  column_to_rownames(var = "name") %>%
+  as.matrix() %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column(var = "Medida") %>% 
+  rename(`N de matriculados` = MATRICULADOS,
+         `Participação` = PARTICIPACAO,
+         `Nota de Lingua Portuguesa` = NOTA_LP,
+         `Nota de Matemática` = NOTA_MT)
 
 kable(medidas_resumo_quantitativasA,
       digits = 2,
-      caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 50")
-
+      caption = "Medidas resumo do N de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 50")
 
 
 #**OBJETIVO 1**
 #**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
 
-table(dados$REG)
+kable(table(dados$REG))
 dados %>%
   ggplot() +
-  geom_bar(aes(x = REG))
+  geom_bar(aes(x = REG), fill="#663399") +
+  labs(y= "Quantidade", x= "Regiao")
 
 table(amostra$REG)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = REG))
+  geom_bar(aes(x = REG), fill="#663399")+
+  labs(y= "Quantidade", x= "Regiao")
 
 
 table(dados$LOCAL)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = LOCAL), fill= "#663399")
+  geom_bar(aes(x = LOCAL), fill= "#663399")+
+  labs(y= "Quantidade", x= "Local")
 
 table(amostra$LOCAL)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = LOCAL), fill= "#663399")
+  geom_bar(aes(x = LOCAL), fill= "#663399")+
+  labs(y= "Quantidade", x= "Local")
 
 
 table(dados$TAM_MUN)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = TAM_MUN), fill= "#663399")
+  geom_bar(aes(x = TAM_MUN), fill= "#663399")+
+  labs(y= "Quantidade", x= "Tamanho do Municipio")
 
 table(amostra$TAM_MUN)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = TAM_MUN), fill= "#663399")
+  geom_bar(aes(x = TAM_MUN), fill= "#663399")+
+  labs(y= "Quantidade", x= "Tamanho do muncipio")
 
 
 table(dados$ADM)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = ADM), fill= "#663399")
+  geom_bar(aes(x = ADM), fill= "#663399")+
+  labs(y= "Quantidade", x= "Administracao")
 
 table(amostra$ADM)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = ADM), fill= "#663399")
-
-
+  geom_bar(aes(x = ADM), fill= "#663399")+
+  labs(y= "Quantidade", x= "Administracao")
 
 table(dados$TAM_ESCOLA)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")
-dados$TAM_ESCOLA %>% levels()
+  geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")+
+  labs(y= "Quantidade", x= "Tamanho da Escola")
 
 table(amostra$TAM_ESCOLA)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = TAM_ESCOLA),)
-amostra$TAM_ESCOLA %>% levels()
+  geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")+
+  labs(y= "Quantidade", x= "Tamanho da Escola")
 
 ################################################################################
 ################################################################################
@@ -536,7 +496,6 @@ amostra <- amostra %>%
   mutate(part75 = PARTICIPACAO < 75)
 p_sum <- sum(amostra$part75)
 p_test <- prop.test(p_sum, n = N, conf.level=1-alpha)
-
 
 p_test$conf.int
 p_test$estimate
@@ -634,23 +593,26 @@ chisq.test(tabela2A)
 #**OBJETIVO 10**
 #**Verificar se a nota em LP é um bom indicador para predizer a nota existe em MT, ou**
 #**seja se estão associadas**
+Dfit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
+# summary(fit) # Não colocar esse summary pq vcs nao vao saber interpretar a regressao
 
 dados %>%
   ggplot() +
-  geom_point(aes(x = NOTA_LP, y = NOTA_MT)) +
-  geom_abline(slope = fit$coefficients[2], intercept = fit$coefficients[1], color = "red")
+  geom_point(aes(x = NOTA_LP, y = NOTA_MT), color= "#663399") +
+  geom_abline(slope = Dfit$coefficients[2], intercept = Dfit$coefficients[1],
+              color = "black") +
+  labs(y= "Nota de Lingua Portugesa", x= "Nota de Matematica")
+
+
+Afit <- lm(NOTA_MT ~ NOTA_LP,  data = amostra)
 
 amostra %>%
   ggplot() +
-  geom_point(aes(x = NOTA_LP, y = NOTA_MT)) +
-  geom_abline(slope = fit$coefficients[2], intercept = fit$coefficients[1], color = "red")
+  geom_point(aes(x = NOTA_LP, y = NOTA_MT), color= "#663399") +
+  geom_abline(slope = Afit$coefficients[2], intercept = Afit$coefficients[1], 
+              color = "black") +
+  labs(y= "Nota de Lingua Portugesa", x= "Nota de Matematica")
 
-
-fit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
-summary(fit)
-
-fit <- lm(NOTA_MT ~ NOTA_LP,  data = amostra)
-summary(fit)
 
 
 cor.test(dados$NOTA_MT, dados$NOTA_LP, alternative="two.sided", method="pearson", conf.level=1-alpha)
