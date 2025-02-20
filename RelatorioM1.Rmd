@@ -539,6 +539,10 @@ amostra %>%
 
 ```{r, echo=FALSE}
 #**OBJETIVO 1**
+#**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
+
+#**OBJETIVO 1**
+#**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
 
 table(dados$REG)
 dados %>%
@@ -554,49 +558,45 @@ amostra %>%
 table(dados$LOCAL)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = LOCAL))
+  geom_bar(aes(x = LOCAL), fill= "#663399")
 
 table(amostra$LOCAL)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = LOCAL))
+  geom_bar(aes(x = LOCAL), fill= "#663399")
 
 
 table(dados$TAM_MUN)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = TAM_MUN))
+  geom_bar(aes(x = TAM_MUN), fill= "#663399")
 
 table(amostra$TAM_MUN)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = TAM_MUN))
+  geom_bar(aes(x = TAM_MUN), fill= "#663399")
 
 
 table(dados$ADM)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = ADM))
+  geom_bar(aes(x = ADM), fill= "#663399")
 
 table(amostra$ADM)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = ADM))
-
+  geom_bar(aes(x = ADM), fill= "#663399")
 
 
 table(dados$TAM_ESCOLA)
 dados %>%
   ggplot() +
-  geom_bar(aes(x = TAM_ESCOLA))
-dados$TAM_ESCOLA %>% levels()
+  geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")
 
 table(amostra$TAM_ESCOLA)
 amostra %>%
   ggplot() +
-  geom_bar(aes(x = TAM_ESCOLA))
-amostra$TAM_ESCOLA %>% levels()
-
+  geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")
 ```
 
 #### Objetivo 2

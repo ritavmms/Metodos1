@@ -520,6 +520,7 @@ amostra$TAM_ESCOLA %>% levels()
 #**Estimar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova**
 #Risco máximo de 5%
 alpha <- 0.05
+N <- nrow(dados)
 
 dados <- dados %>%
   mutate(part75 = PARTICIPACAO < 75)
