@@ -370,10 +370,68 @@ medidas_resumo_quantitativasD <- dados %>%
             curt_excesso = excesso_curtose(value),
             assimetria = assimetria_corrigida_pearson(value))
 
+<<<<<<< HEAD
 kable(medidas_resumo_quantitativasD, 
       digits = 2,
       caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
+=======
+# View(medidas_resumo_quantitativasD)
+medidas_resumo_quantitativasD
+medidas_resumo_quantitativasD 
+>>>>>>> f771cc5 (Ajusted table quantitative measures)
 
+kable(medidas_resumo_quantitativasD, 
+      digits = 2,
+      caption = "Medidas resumo do N\\textordmasculine{} de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
+?kable
+
+dados %>%
+  select(-Tipo) %>%
+  pivot_longer(everything()) %>%
+  group_by(name) %>%
+  summarise(`Média` = mean(value),
+            `Desvio Padrão` = sd(value),
+            `Minimo` = min(value),
+            `Máximo` = max(value),
+            `1\\textordmasculine Quartil` = quantile(value, 0.25),
+            `Mediana` = median(value),
+            `3\\textordmasculine Quartil` = quantile(value, 0.75)) %>%
+  column_to_rownames(var = "name") %>%
+  as.matrix() %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column(var = "Medida")
+
+medidas_resumo_quantitativasD <- dados %>%
+  select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything()) %>% 
+  group_by(name) %>%
+  summarise(`Média` = mean(value),
+            `Desvio Padrão` = sd(value),
+            `Minimo` = min(value),
+            `1\\textordmasculine Quartil` = quantile(value, 0.25),
+            `Mediana` = median(value),
+            `3\\textordmasculine Quartil` = quantile(value, 0.75), 
+            `Máximo` = max(value),
+            `Excesso de Curtose` = excesso_curtose(value), 
+            `Assimetria` = assimetria_corrigida_pearson(value)) %>%
+  column_to_rownames(var = "name") %>%
+  as.matrix() %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column(var = "Medida")
+
+medidas_resumo_quantitativasD
+
+summarize(media = mean(value),
+          # variancia = var(value),
+          desvio_padrao = sd(value),
+          q1 = quantile(value, 0.25),
+          mediana = quantile(value, 0.5),
+          q3 = quantile(value, 0.75),
+          # curt_def = curtose_definicao(value),
+          curt_excesso = excesso_curtose(value),
+          assimetria = assimetria_corrigida_pearson(value))
 medidas_resumo_quantitativasA <- amostra %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
