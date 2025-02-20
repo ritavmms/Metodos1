@@ -409,9 +409,9 @@ medidas_resumo_quantitativasD <- dados %>%
   summarise(`Média` = mean(value),
             `Desvio Padrão` = sd(value),
             `Minimo` = min(value),
-            `1\\textordmasculine Quartil` = quantile(value, 0.25),
+            `1\\textordmasculine{} Quartil` = quantile(value, 0.25),
             `Mediana` = median(value),
-            `3\\textordmasculine Quartil` = quantile(value, 0.75), 
+            `3\\textordmasculine{} Quartil` = quantile(value, 0.75), 
             `Máximo` = max(value),
             `Excesso de Curtose` = excesso_curtose(value), 
             `Assimetria` = assimetria_corrigida_pearson(value)) %>%
@@ -419,7 +419,11 @@ medidas_resumo_quantitativasD <- dados %>%
   as.matrix() %>%
   t() %>%
   as.data.frame() %>%
-  rownames_to_column(var = "Medida")
+  rownames_to_column(var = "Medida") %>% 
+  rename(`N\\textordmasculine{} de matriculados` = MATRICULADOS,
+         `Participação` = PARTICIPACAO,
+         `Nota de Lingua Portuguesa` = NOTA_LP,
+         `Nota de Matemática` = NOTA_MT)
 
 medidas_resumo_quantitativasD
 
@@ -432,6 +436,7 @@ summarize(media = mean(value),
           # curt_def = curtose_definicao(value),
           curt_excesso = excesso_curtose(value),
           assimetria = assimetria_corrigida_pearson(value))
+
 medidas_resumo_quantitativasA <- amostra %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 

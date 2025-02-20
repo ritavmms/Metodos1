@@ -2,8 +2,11 @@
 title: "RelatorioM1"
 author: "Rita"
 date: "2025-02-20"
-output: pdf_document
 cache: true
+output: 
+  pdf_document:
+    fig_caption: true
+    extra_dependencies: "subfig"
 ---
 
 OBS: A apresentação da atividade deverá seguir as normas ABNT de apresentação de relatórios de pesquisa e as Normas de Apresentação Tabular.
@@ -135,37 +138,55 @@ medidas_resumo_quantitativasD <- dados %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
   group_by(name) %>%
-  summarize(media = mean(value),
-            # variancia = var(value),
-            desvio_padrao = sd(value),
-            q1 = quantile(value, 0.25),
-            mediana = quantile(value, 0.5),
-            q3 = quantile(value, 0.75),
-            # curt_def = curtose_definicao(value),
-            curt_excesso = excesso_curtose(value),
-            assimetria = assimetria_corrigida_pearson(value))
+  summarise(`Média` = mean(value),
+            `Desvio Padrão` = sd(value),
+            `Minimo` = min(value),
+            `1\\textordmasculine{} Quartil` = quantile(value, 0.25),
+            `Mediana` = median(value),
+            `3\\textordmasculine{} Quartil` = quantile(value, 0.75), 
+            `Máximo` = max(value),
+            `Excesso de Curtose` = excesso_curtose(value), 
+            `Assimetria` = assimetria_corrigida_pearson(value)) %>%
+  column_to_rownames(var = "name") %>%
+  as.matrix() %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column(var = "Medida") %>% 
+  rename(`N\\textordmasculine{} de matriculados` = MATRICULADOS,
+         `Participação` = PARTICIPACAO,
+         `Nota de Lingua Portuguesa` = NOTA_LP,
+         `Nota de Matemática` = NOTA_MT)
 
 kable(medidas_resumo_quantitativasD, 
       digits = 2,
-      caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
+      caption = "Medidas resumo do N\\textordmasculine de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 200")
 
 medidas_resumo_quantitativasA <- amostra %>%
   select(MATRICULADOS, PARTICIPACAO, NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything()) %>% 
   group_by(name) %>%
-  summarize(media = mean(value),
-            # variancia = var(value),
-            desvio_padrao = sd(value),
-            q1 = quantile(value, 0.25),
-            mediana = quantile(value, 0.5),
-            q3 = quantile(value, 0.75),
-            # curt_def = curtose_definicao(value),
-            curt_excesso = excesso_curtose(value),
-            assimetria = assimetria_corrigida_pearson(value))
+  summarise(`Média` = mean(value),
+            `Desvio Padrão` = sd(value),
+            `Minimo` = min(value),
+            `1\\textordmasculine{} Quartil` = quantile(value, 0.25),
+            `Mediana` = median(value),
+            `3\\textordmasculine{} Quartil` = quantile(value, 0.75), 
+            `Máximo` = max(value),
+            `Excesso de Curtose` = excesso_curtose(value), 
+            `Assimetria` = assimetria_corrigida_pearson(value)) %>%
+  column_to_rownames(var = "name") %>%
+  as.matrix() %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column(var = "Medida") %>% 
+  rename(`N\\textordmasculine{} de matriculados` = MATRICULADOS,
+         `Participação` = PARTICIPACAO,
+         `Nota de Lingua Portuguesa` = NOTA_LP,
+         `Nota de Matemática` = NOTA_MT)
 
 kable(medidas_resumo_quantitativasA,
       digits = 2,
-      caption = "Medidas resumo do \textnumero de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 50")
+      caption = "Medidas resumo do N\\textordmasculine de matriculados, porcentagem de participação, notas de Lingua Portuguesa e Matemática, para a amostra de 50")
 
 ```
 
@@ -190,7 +211,7 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
 
 ####### Distribuição de frequências com intervalos de classe
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.cap="Distribuição de frequências por intervalos de classe dos números de matriculados para as amostras de tamanho $n$", fig.subcap=c("n = 200", "n = 50")}
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
@@ -213,7 +234,7 @@ amostra %>%
 
 ####### Histograma
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Histograma
 dados %>%
   ggplot() +
@@ -237,7 +258,7 @@ amostra %>%
 
 ####### Boxplot
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -277,7 +298,7 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
 
 ####### Distribuição de frequências com intervalos de classe
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Distribuição de frequências com intervalos de classe
 dados %>%
   mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
@@ -299,7 +320,7 @@ amostra %>%
 
 ####### Histograma
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Histograma
 dados %>%
   ggplot() +
@@ -323,7 +344,7 @@ amostra %>%
 
 ####### Boxplot
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -361,7 +382,7 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
 
 ####### Distribuição de frequências com intervalos de classe
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
@@ -382,7 +403,7 @@ amostra %>%
 
 ####### Histograma
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Histograma
 dados %>%
   ggplot() +
@@ -412,7 +433,7 @@ amostra %>%
 
 ####### Boxplot
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -448,7 +469,7 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
 
 ####### Distribuição de frequências com intervalos de classe
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Distribuição de frequências com intervalos de classe
 dados %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
@@ -467,7 +488,7 @@ amostra %>%
 
 ####### Histograma
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 
 #Histograma
 media = mean(dados$NOTA_MT)
@@ -499,7 +520,7 @@ amostra %>%
 
 ####### Boxplot
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -544,7 +565,7 @@ amostra %>%
 #**OBJETIVO 1**
 #**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
 
-table(dados$REG)
+kable(table(dados$REG))
 dados %>%
   ggplot() +
   geom_bar(aes(x = REG))
@@ -783,14 +804,9 @@ cor.test(amostra$NOTA_MT, amostra$NOTA_LP, alternative="two.sided", method="pear
 
 ## Referências Bibliográficas:
 
-curtose_definicao:
-https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm#:~:text=Skewness%20is%20a%20measure%20of,relative%20to%20a%20normal%20distribution.
+[Assimetria e Curtose](https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm#:~:text=Skewness%20is%20a%20measure%20of,relative%20to%20a%20normal%20distribution.)
 
-excesso_curtose:
-https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm#:~:text=Skewness%20is%20a%20measure%20of,relative%20to%20a%20normal%20distribution.
-
-assimetria_corrigida_pearson:
-https://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm#:~:text=Skewness%20is%20a%20measure%20of,relative%20to%20a%20normal%20distribution.
+[Gráfico de Ramo e folhas](https://stackoverflow.com/questions/46535805/r-stem-and-leaf-plot-issue)
 
 ## Apêndice:
 
