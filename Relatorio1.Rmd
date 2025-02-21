@@ -1110,11 +1110,13 @@ t.test(Metodos1A$NOTA_LP, Metodos1A$NOTA_MT,var.equal = FALSE, paired = TRUE)
 
 #### Objetivo 8:
 
-  
+  Neste Objetivo primeiramente fazemos uma tabela completa para ter uma visão geral, em seguida focamos em comparar a proporção, pelo teste Qui-Quadrado de proporção, por local da escola, para depois então focar na região de localização da escola. 
 
 
 ```{r, echo=FALSE}
 #**OBJETIVO 8**
+#**Comparar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova**
+#**segundo: Local da escola; Região de localização da escola.**
 
 dados %>%
   filter(part75) %>%
@@ -1173,7 +1175,7 @@ chisq.test(tabela1A)
 
   Sendo:
 h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é igual entre os locais
-h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos diferente entre os locais
+h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é diferente entre os locais
   Chegamos a conclusão de que não temos evidencias para acreditar que a proporção de escolas nos locais muda entre as escolas com mais e menos de 75% de inscritos
 
 
@@ -1186,7 +1188,7 @@ tabela2A <- table(part75A, Aregiao)
 tabela2A
 ```
 
-  Com as tabelas acima temos indicios de que tenha sim uma relação na proporção de escolas em que menos de 75% dos estudantes fizeram a prova e a região da escola, fazendo o teste de hipotese para confirmar.
+  Agora buscamos saber se tem uma relação na proporção de escolas em que menos de 75% dos estudantes fizeram a prova e a região da escola, fazendo o teste de Qui-Quadrado de proporção.
 
 
 ```{r, echo=FALSE}
@@ -1201,7 +1203,7 @@ chisq.test(tabela2A)
   Sendo:
 h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é maior ou igual entre as localizações
 h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é menor entre as localizações
-  Chegamos a conclusão de que as proporções de escolas em que menos de 75%  
+  Chegamos a conclusão de que as proporções de escolas em que menos de 75% dos alunos fizeram a prova se mantém a mesma independente das regiões.  
 
 
 #### Objetivo 9:
