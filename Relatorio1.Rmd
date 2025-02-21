@@ -3,8 +3,8 @@ title: "RelatorioM1"
 author: "Rita, André, Camila, Antônio"
 date: "2025-02-20"
 output:
-  html_document:
-    df_print: paged
+  #html_document:
+  #  df_print: paged
   pdf_document:
     fig_caption: true
     extra_dependencies: subfig
@@ -13,7 +13,6 @@ cache: true
 
 OBS: A apresentação da atividade deverá seguir as normas ABNT de apresentação de relatórios de pesquisa e as Normas de Apresentação Tabular.
 
-## Sumário:
 
 ## Introdução:
 * Incialmente explicar o que é o Sistema de Avaliação do Ensino Básico e como a Prova Brasil se insere neste sistema. (Ler documento Microdados Prova Brasil 2011 - Manual do Usuário disponível na plataforma)
@@ -74,11 +73,11 @@ dados$ADM<- factor(dados$ADM,
                    labels = c("Federal", "Estadual", "Municipal"))
 dados$TAM_MUN<- factor(dados$TAM_MUN, 
                        levels = c(1, 2, 3, 4, 5), 
-                       labels = c("<20000 hab", 
-                                  "20000 a 49999 hab", 
-                                  "50000 a 99999 hab", 
-                                  "100000 a 999999 hab", 
-                                  "1000000 ou mais"))
+                       labels = c("<20 mil hab", 
+                                  "20 a 49 mil hab", 
+                                  "50 a 99 mil hab", 
+                                  "100 a 999 mil hab", 
+                                  "1 milhao de hab >"))
 dados$TAM_ESCOLA<- factor(dados$TAM_ESCOLA,
                           levels = c(1, 2, 3, 4), 
                           labels = c("<25", 
@@ -93,13 +92,16 @@ amostra <- dados %>%
   sample_n(size = 50)
 
 #Variação do nome das variáveis
-Metodos1<-readxl::read_xlsx("C:/Users/André/Downloads/Amostra_g04_Andre_Camila_Rita(1).xlsx")
+Metodos1<-readxl::read_xlsx("Amostra_g04_Andre_Camila_Rita.xlsx")
 Metodos1$LOCAL <- factor(Metodos1$LOCAL,levels = c(1, 2), labels = c("Urbana", "Rural"))
 Metodos1$ADM<- factor(Metodos1$ADM, levels = c(1, 2, 3), labels = c("Federal", "Estadual", 
                                                                     "Municipal"))
 Metodos1$TAM_MUN<- factor(Metodos1$TAM_MUN, levels = c(1, 2, 3, 4, 5), 
-                          labels = c("<20000 hab", "20000 a 49999 hab", "50000 a 99999 hab",
-                                     "100000 a 999999 hab", "1000000 ou mais"))
+                          labels = c("<20 mil hab", 
+                                  "20 a 49 mil hab", 
+                                  "50 a 99 mil hab", 
+                                  "100 a 999 mil hab", 
+                                  "1 milhao de hab >"))
 Metodos1$TAM_ESCOLA<- factor(Metodos1$TAM_ESCOLA, levels = c(1, 2, 3, 4), 
                              labels = c("<25", "25 a 49", "50 a 99","100 ou mais"))
 
@@ -137,6 +139,10 @@ excesso_curtose <- function(values)
   
   ((sum(((values - m)^4)/n)) / (s^4)) - 3 # a curtose de uma normal padrao e igual a 3
 }
+
+# o número que sair é o excesso de curtose
+# o quanto os dados são mais ou menos curticos do que uma normal padrão
+# sendo a normal padrão 0 nessa escala
 
 assimetria_corrigida_pearson <- \(values) # Ainda e uma funcao so q com uma notacao diferente, function() == \()
 {
@@ -226,8 +232,8 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
 
 ```
 
-  Na amostra de 200 observações podemos testemunhar que a maioria das escolas tiveram menos de 100 matriculados, entretanto os dados variam entre 20 matriculados e 277, o que explica o desvio padrão ser de 42.53. 
-    E na amostra de 50  isso se permanece verdade, com a maioria das escolas tendo menos de 70 matriculados, com a quantidade entre 23 e 223 matriculados, com o desvio padrão diminuindo um pouco para 42.09.
+  Na amostra de 200 observações podemos testemunhar que a maioria das escolas tiveram menos de 100 matriculados, entretanto os dados variam entre 20 matriculados e 277, o que explica o desvio padrão ser de 42,53. 
+    E na amostra de 50  isso se permanece verdade, com a maioria das escolas tendo menos de 70 matriculados, com a quantidade entre 23 e 223 matriculados, com o desvio padrão diminuindo um pouco para 42,09.
 
 
 ####### Distribuição de frequências com intervalos de classe
@@ -250,13 +256,13 @@ amostra %>%
   labs(title = "", y= "Quantidade", x= "Matriculados")
 ```
 
-  Os gráficos acima reforçam a ideia anterior, acrescentando que na amostra de 200 observações a maioria das escolas tiveram entre 25 e 99 matriculados, o que explica a média ser de 62.27.
-    E na amostra de 50 escolas visualizamos melhor que existem poucas escolas com menos de 25 matriculados, o que explica o leve aumento da média para 66.94.
+  Os gráficos acima reforçam a ideia anterior, acrescentando que na amostra de 200 observações a maioria das escolas tiveram entre 25 e 99 matriculados, o que explica a média ser de 62,27.
+    E na amostra de 50 escolas visualizamos melhor que existem poucas escolas com menos de 25 matriculados, o que explica o leve aumento da média para 66,94.
 
 
 ####### Histograma
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma do número de matriculados para as amostras de tamanho $n$"}
 #Histograma
 dados %>%
   ggplot() +
@@ -275,12 +281,12 @@ amostra %>%
   labs(title = "", y= "Densidade", x= "Matriculados")
 ```
 
-  Observando o histograma de 200 observações, que se assemelha ao gráfico de uma exponencial negativa, o que causa uma assimetria Positiva de valor 26.65. O histograma de 50 escolas comporta de forma semelhante, porém a assimetria diminui para 11.56.
+  Observando o histograma de 200 observações, que se assemelha ao gráfico de uma exponencial negativa, o que causa uma assimetria Positiva de valor 26,65. O histograma de 50 escolas comporta de forma semelhante, porém a assimetria diminui para 11,56.
 
 
 ####### Boxplot
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot do número de matriculados para as amostras de tamanho $n$"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -295,8 +301,8 @@ amostra %>%
   labs(title = "", y= "Quantidade de Matriculados", x= "")
 ```
 
-  Contemplando o primeiro Boxplot e os dados da tabela _medidas_resumo_quantitativasD_ sabemos que o a Mediana é 49, o Q3 é 77 e o Máximo é 277, este valor alto para o máximo se comparado à média e a amostra ser de 200 escolas explica a quantidade de outliers.
-  Já o Segundo Boxplot, e os dados da tabela _medidas_resumo_quantitativasA_, principalmente em comparação ao primeiro percebemos que a Mediana subiu para 56, o Q3 se mantém o mesmo e o Máximo desceu para 223, o que se explica pela amostra ser menor.
+  Contemplando o primeiro Boxplot e os dados da tabela sabemos que o a Mediana é 49, o Q3 é 77 e o Máximo é 277, este valor alto para o máximo se comparado à média e a amostra ser de 200 escolas explica a quantidade de outliers.
+  Já o Segundo Boxplot, e os dados da tabela, principalmente em comparação ao primeiro percebemos que a Mediana subiu para 56, o Q3 se mantém o mesmo e o Máximo desceu para 223, o que se explica pela amostra ser menor.
 
 
 ###### Participação
@@ -316,34 +322,34 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
 
 ```
 
-  O Ramo-e-folhas da participação, por estar em porcentagem já apresenta o comportamento contrário ao de Matriculados, tendo a maior parte dos dados acima de 80 para ambas as amostras, e com o desvio padrão significantemente menor, sendo de 9.01 para a amostra maior cai para 8.61 para a menor.
+  O Ramo-e-folhas da participação, por estar em porcentagem já apresenta o comportamento contrário ao de Matriculados, tendo a maior parte dos dados acima de 80 para ambas as amostras, e com o desvio padrão significantemente menor, sendo de 9,01 para a amostra maior cai para 8,61 para a menor.
 
 
 ####### Distribuição de frequências com intervalos de classe
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Distribuição de frequências com intervalos de classe da porcentagem de participação para as amostras de tamanho $n$"}
 #Distribuição de frequências com intervalos de classe
 dados %>%
   mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
                     labels = c("< 75 %", "75% ou mais"))) %>%
   ggplot() +
   geom_bar(aes(x = part), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Matriculados")
+  labs(title = "", y= "", x= "Matriculados")
 
 amostra %>%
   mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
                     labels = c("< 75 %", "75% ou mais"))) %>%
   ggplot() +
   geom_bar(aes(x = part), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Matriculados")
+  labs(title = "", y= "", x= "Matriculados")
 ```
 
-  Os gráficos acima nos permitem visualizar melhor as observações feitas pelo Ramo-e-Folhas, e constatar que as amostras tem comportamentos muito semelhantes, com médias quase iguais de 90.25, para a amostra "grande", e 90.06, para a amostra "pequena".
+  Os gráficos acima nos permitem visualizar melhor as observações feitas pelo Ramo-e-Folhas, e constatar que as amostras tem comportamentos muito semelhantes, com médias quase iguais de 90,25 , para a amostra "grande", e 90,06 , para a amostra "pequena".
 
 
 ####### Histograma
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma da porcentagem de participação para as amostras de tamanho $n$"}
 #Histograma
 dados %>%
   ggplot() +
@@ -362,12 +368,12 @@ amostra %>%
   labs(title = "", y= "Densidade", x= "Participacao")
 ```
 
-  A distribuição das amostras se assemelham a uma exponencial, ou seja, com uma assímetria Negativa de -21.24 (para a amostra de 200) e -9.65 (para a amostra de 50). A diferença do primeiro gráfico  para o segundo nos leva a acreditar que a Participação da população pode se comportar como uma normal assimétrica para a esquerda.
+  A distribuição das amostras se assemelham a uma exponencial, ou seja, com uma assímetria Negativa de -21,24 (para a amostra de 200) e -9,65 (para a amostra de 50). A diferença do primeiro gráfico  para o segundo nos leva a acreditar que a Participação da população pode se comportar como uma normal assimétrica para a esquerda.
 
 
 ####### Boxplot
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot da porcentagem de participação para as amostras de tamanho $n$"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -381,8 +387,8 @@ amostra %>%
 
 ```
 
-  Os Boxplot nos permitem melhor visualizar a porcentagem de participação é maior do que 90 para as amostras. A maior amostra tem o Q1 e o Q3 quase simétricos equivalentes a 86.25 e 97.05, respectivimente.
-  O Boxplot da amostra menor tendo o Q1 equivalente a 85.79, a maior diferença do primeiro Boxplot para o segundo é a quantidade de outiliers, o com maior presença sendo o da amostra maior.
+  Os Boxplot nos permitem melhor visualizar a porcentagem de participação é maior do que 90 para as amostras. A maior amostra tem o Q1 e o Q3 quase simétricos equivalentes a 86,25 e 97,05, respectivimente.
+  O Boxplot da amostra menor tendo o Q1 equivalente a 85,79, a maior diferença do primeiro Boxplot para o segundo é a quantidade de outiliers, o com maior presença sendo o da amostra maior.
 
 
 ###### Notas Lingua Portuguesa
@@ -401,43 +407,42 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
 
 ```
 
-  As notas de Lingua Portuguesa para a amostra maior estão entre 134.64 e 237.47, com desvio padrão de 21.33 e sua distribuição assemelhando-se a uma normal. Já a outra amostra está entre 140.47 e 221.23, com desvio padrão de 20.67 com caracteristicas bem similares às da amostra maior.
+  As notas de Lingua Portuguesa para a amostra maior estão entre 134,64 e 237,47, com desvio padrão de 21,33 e sua distribuição assemelhando-se a uma normal. Já a outra amostra está entre 140,47 e 221,23, com desvio padrão de 20,67 com caracteristicas bem similares às da amostra maior.
 
 
 ####### Distribuição de frequências com intervalos de classe
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Distribuição de frequências com intervalos de classe das notas de Portugues para as amostras de tamanho $n$"}
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa")
+  labs(title = "", y= "", x= "Nota Lingua Portuguesa")
 
 amostra %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa")
+  labs(title = "", y= "", x= "Nota Lingua Portuguesa")
 ```
 
-   A maior parte das notas de Lingua Portuguesa se encontram entre 150 e 200 pontos, sendo esse o comportamento de ambas as amostras. 
+  A maior parte das notas de Lingua Portuguesa se encontram entre 150 e 200 pontos,
+sendo a média da amostra maior 184,47 e a da amostra menor 183,76. O comportamento de 
+ambas as amostras é muito semelhante nas notas.
 
 
 ####### Histograma
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de Portugues para as amostras de tamanho $n$"}
 #Histograma
 dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
                      y = after_stat(density)), 
-                 fill = "#663399", 
-                 alpha = 0.9, 
+                 fill = "#663399",
                  bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_LP), sd = sd(dados$NOTA_LP)), 
-                linewidth = 1) +
   labs(title = "", y= "Densidade", x= "Nota Lingua Portugesa")
 
 amostra %>%
@@ -445,19 +450,19 @@ amostra %>%
   geom_histogram(aes(x = NOTA_LP,
                      y = after_stat(density)), 
                  fill = "#663399", 
-                 alpha = 0.9, 
                  bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_LP), sd = sd(amostra$NOTA_LP)), 
-                linewidth = 1) +
   labs(title = "", y= "Densidade", x= "Nota Lingua Portuguesa")
+
 ```
 
-  Os histogramas acima se assemelham a uma normal Leptocurtica, tendo a linha preta presente para evidenciar esse comportamento.
+  
+  O primeiro histograma se assemelha uma normal tendo uma leve assimetria para a esquerda, com o valor de -0,42 , e uma leve curtose de 0,29 tornando-a levemente leptocúrtica.
+  O segundo histograma tem uma assimetria levemente maior, de -0,84 , e a curtose de -0,51 tornando-a levemente platicúrtica.
 
 
 ####### Boxplot
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot das notas de Portugues para as amostras de tamanho $n$"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -471,8 +476,8 @@ amostra %>%
   labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
 ```
 
-  Os Boxplot não apresentam outliers, tendo os Quartis simétricos, o da amostra maior tem o Q1 levemente maior, assim como os Limites.
 
+  O primeiro Boxplot tem o Q1= 169,08 , Q2= 185,48 e Q3= 198,56 , não tendo outliers. O segundo apresenta o mesmo padrão, com os Quartis sendo Q1= 168.95, Q2= 183,47 e Q3= 199,32.
 
 ###### Notas Matemática
 
@@ -489,58 +494,53 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
     sep="\n")
 ```
 
-  As notas de Matematica estão entre 154 e 270, sendo então maiores do que as de Lingua Portuguesa, com sua distribuição assemelhando-se a uma normal, estando bem distribuidas nas amostras.
+  As notas de Matemática comportam de forma semelhande das de Lingua Portuguesa, variando entre 153,91 e 273,34 para a amostra maior, com o desvio padrão de 24,85. A amostra menor varia entre 157,77 e 245,42 menor quando comparada a outra amostra, assim como o desvio padrão de 23,27.
+
 
 ####### Distribuição de frequências com intervalos de classe
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Distribuição de frequências com intervalos de classe das notas de Matemática para as amostras de tamanho $n$"}
 #Distribuição de frequências com intervalos de classe
 dados %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Nota Matemática")
+  labs(title = "", y= "", x= "Nota Matematica")
 
 amostra %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399") +
-  labs(title = "", y= "Quantidade", x= "Nota Matemática")
+  labs(title = "", y= "", x= "Nota Matematica")
 ```
 
-
+  Os gráficos acima confirmam que as notas de matemática são maiores do que as de LinguaPortugesa, o que é reforçado pela média, que é 184,47 e 183,76 para a amostra maior e menor respectivamente.
 
 ####### Histograma
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de matem para as amostras de tamanho $n$"}
 
 #Histograma
-media = mean(dados$NOTA_MT)
-desvio  = sd(dados$NOTA_MT)
+
 dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_MT,
                      y = after_stat(density)),
                  fill = "#663399",
-                 alpha = 0.9,
                  bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_MT), sd = sd(dados$NOTA_MT)), 
-                linewidth = 1)+
   labs(title = "", y= "Densidade", x= "Nota Matematica")
 
-media = mean(amostra$NOTA_MT)
-desvio  = sd(amostra$NOTA_MT)
 amostra %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_MT,
                      y = after_stat(density)),
                  fill = "#663399",
-                 alpha = 0.9,
                  bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_MT), sd = sd(amostra$NOTA_MT)), 
-                linewidth = 1)+
   labs(title = "", y= "Densidade", x= "Nota Matematica")
 ```
+
+  Para o primeiro gráfico, os valores de assimetria e curtose são 3,05 e -0,60, respectivamente, o que em conjunto com o gráfico podemos observar uma assimetria para a direita e é levemente platicurtica.
+  Já o segundo gráfico, tem uma assimetria de -0,46, o que indica uma leve assimetria para a esquerda e tem uma curtose de -0,86 indicando que também é levemente platicurtica.
 
 ####### Boxplot
 
@@ -558,12 +558,14 @@ amostra %>%
 
 ```
 
+  O primeiro Boxplot tem os seguintes quartis: Q1=183,38 , Q2=203,55 e Q3=221,28 e não tem outliers. O segundo Boxplot tem o Q1=186,79 , com o mesmo Q2 e um Q3 quase identico.
+
 #### Categóricas
 
 * Apresente as variáveis categóricas em forma tabular e gráfica. Comente os resultados.
   
 ###### Região
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Tabela
 tabelaReg <- table(Metodos1$REG)
 
@@ -593,10 +595,12 @@ ggplot(data = Metodos1A) +
 
 
 ```
-A distribuição das regiões mostram maior numero de observações oriundas do sudeste e nordeste por serem as regiões mais populosas do país.
+
+  A distribuição das regiões mostram maior numero de observações oriundas do sudeste e nordeste por serem as regiões mais populosas do país.
+
 
 ###### Local
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 tabelaLCL <- table(Metodos1$LOCAL)
 
 tabelaLCL <- addmargins(tabelaLCL)
@@ -620,10 +624,12 @@ ggplot(data = Metodos1A) +
   geom_bar(aes(x = LOCAL), fill= "#663399")+
   labs(title = "", y= "Frequência", x= "Tipo de Local")
 ```
-Mais de 80 porcento da amostra é oriunda de locais considerados urbanos
+
+  Mais de 80 porcento da amostra é oriunda de locais considerados urbanos
+
 
 ###### Tamanho do município
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 tabelaMun <- table(Metodos1$TAM_MUN)
 
 tabelaMun <- addmargins(tabelaMun)
@@ -651,8 +657,9 @@ tabelaMunA
 
 ```
 
+
 ###### Administração
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 tabelaADM <- table(Metodos1$ADM)
 
 tabelaADM <- addmargins(tabelaADM)
@@ -680,10 +687,12 @@ tabelaADMA
 
 
 ```
-Mais de 60 porcento das escolas são geridas pelas redes municipais de ensino, vale ressaltar que não houve nenhuma observação vinda de escolas geridas pelo governo federal.
+
+  Mais de 60 porcento das escolas são geridas pelas redes municipais de ensino, vale ressaltar que não houve nenhuma observação vinda de escolas geridas pelo governo federal.
+
 
 ###### Tamanho da escola
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 tabelaEsc <- table(Metodos1$TAM_ESCOLA)
 
 tabelaEsc <- addmargins(tabelaEsc)
@@ -718,8 +727,6 @@ ggplot(data = Metodos1A) +
 
 #### Objetivo 1
 
-* Descrever as características das escolas e o desempenho de seus estudantes na Prova
-
 ```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #**OBJETIVO 1**
 #**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
@@ -729,13 +736,13 @@ kable(table(dados$REG))
 dados %>%
   ggplot() +
   geom_bar(aes(x = REG), fill="#663399") +
-  labs(y= "Quantidade", x= "Regiao")
+  labs(y= "", x= "Regiao")
 
 table(amostra$REG)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = REG), fill="#663399")+
-  labs(y= "Quantidade", x= "Regiao")
+  labs(y= "", x= "Regiao")
 ```
 
 
@@ -745,13 +752,13 @@ table(dados$LOCAL)
 dados %>%
   ggplot() +
   geom_bar(aes(x = LOCAL), fill= "#663399")+
-  labs(y= "Quantidade", x= "Local")
+  labs(y= "", x= "Local")
 
 table(amostra$LOCAL)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = LOCAL), fill= "#663399")+
-  labs(y= "Quantidade", x= "Local")
+  labs(y= "", x= "Local")
 ```
 
 
@@ -761,13 +768,13 @@ table(dados$TAM_MUN)
 dados %>%
   ggplot() +
   geom_bar(aes(x = TAM_MUN), fill= "#663399")+
-  labs(y= "Quantidade", x= "Tamanho do Municipio")
+  labs(y= "", x= "Tamanho do Municipio")
 
 table(amostra$TAM_MUN)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = TAM_MUN), fill= "#663399")+
-  labs(y= "Quantidade", x= "Tamanho do muncipio")
+  labs(y= "", x= "Tamanho do muncipio")
 
 ```
 
@@ -778,13 +785,13 @@ table(dados$ADM)
 dados %>%
   ggplot() +
   geom_bar(aes(x = ADM), fill= "#663399")+
-  labs(y= "Quantidade", x= "Administracao")
+  labs(y= "", x= "Administracao")
 
 table(amostra$ADM)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = ADM), fill= "#663399")+
-  labs(y= "Quantidade", x= "Administracao")
+  labs(y= "", x= "Administracao")
 ```
 
 
@@ -794,14 +801,27 @@ table(dados$TAM_ESCOLA)
 dados %>%
   ggplot() +
   geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")+
-  labs(y= "Quantidade", x= "Tamanho da Escola")
+  labs(y= "", x= "Tamanho da Escola")
 
 table(amostra$TAM_ESCOLA)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")+
-  labs(y= "Quantidade", x= "Tamanho da Escola")
+  labs(y= "", x= "Tamanho da Escola")
 ```
+
+  A Região com mais escolas é a Sudeste, seguida do Nordeste, a maioria das escolas estão em areras Urbanas, com administração Municipal. Tem mais municípios entre 50 a 99 mil habitantes, seguidos pelos que tem menos de 20 mil habitantes. Escolas com menos de 25 estudantes estão na minoria, sendo mais comum ter escolas entre 25 e 49 estudantes.
+
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+
+
+
+
+```
+
+
+
 
 #### Objetivo 2
 
@@ -835,19 +855,19 @@ p_test$estimate
 Proficiência média em Lingua Portuguesa :
 Para estimar a proficiência média foi utilizado intervalos de confiança com uma confiança de 95% sobre os resultados de desempenho médio nas provas de lingua portuguesa e matemática. Foi utilizado essa técnica pois não é possivel dar um valor certo para essas proficiências mas o intervalo de confiança resulta uma faixa de valores onde a verdadeira média se encontra.
 * Proficiência média em Lingua Portuguesa pela amostra aleatória inicial
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1$NOTA_LP, conf.level = 0.95)
 ```
 * Estimando pela amostra aleatória de 50 observações
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1A$NOTA_LP, conf.level = 0.95 )
 ```
 * Proficiência média em Matemática pela amostra aleatória inicial
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1$NOTA_MT, conf.level = 0.95 )
 ```
 * Proficiência média em Matemática pela amostra aleatória de 50 observações
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1A$NOTA_MT, conf.level = 0.95 )
 ```
   Os resultados indicam que as notas possuem os seguintes intervalos : 
@@ -885,11 +905,11 @@ t.test(amostra$NOTA_MT, mu=204.3, alternative = "greater", conf.level = 1-alpha)
 ```
 
 #### Objetivo 5
-* Verificar se é possível afirmar que as notas em Língua Portuguesa e em Matemática são normalmente
-distribuídas.
-Para verificar se essas notas seguem a distribuição normal, foi feito o teste de Aderência. A partir disso, é considerado que para a hipotese nula seja satisfeita, os valores das notas devem seguir a distribuição normal com a media e variância encontrada pela amostra.
+
+  Para verificar se essas notas seguem a distribuição normal, foi feito o teste de Aderência. A partir disso, é considerado que para a hipotese nula seja satisfeita, os valores das notas devem seguir a distribuição normal com a media e variância encontrada pela amostra.
+
 * Histogramas e testes para as notas em Lingua Portuguesa :
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
@@ -918,9 +938,10 @@ chisq.test(normalPort, p = Metodos1$NOTA_LP / sum(Metodos1$NOTA_LP))
 normalPortA <- rnorm(50, mean = mean(Metodos1A$NOTA_LP), sd = sd(Metodos1A$NOTA_LP))
 chisq.test(normalPortA, p = Metodos1A$NOTA_LP / sum(Metodos1A$NOTA_LP))
 ```
+
 * Teste para as notas em Matemática : 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 #Histograma
 media = mean(dados$NOTA_MT)
 desvio  = sd(dados$NOTA_MT)
@@ -955,35 +976,36 @@ chisq.test(normalMt, p = Metodos1$NOTA_MT / sum(Metodos1$NOTA_MT))
 normalMtA <- rnorm(50, mean = mean(Metodos1A$NOTA_MT), sd = sd(Metodos1A$NOTA_MT))
 chisq.test(normalMtA, p = Metodos1A$NOTA_MT / sum(Metodos1A$NOTA_MT))
 ```
-Diante dos resultados, ambos os p-valores indicaram que possivelmente as notas não seguem uma distribuição normal, devido ao p-valor menor que a significância 0,05. É importante ressaltar que isso não deslegitimiza o relatório, já que é trabalhado com as medias e proporções amostrais nos outros objetivos e pelo teorema central do limite devido a nossa amostra ser grande essas estatísticas tenderão a normal. 
+
+  Diante dos resultados, ambos os p-valores indicaram que possivelmente as notas não seguem uma distribuição normal, devido ao p-valor menor que a significância 0,05. É importante ressaltar que isso não deslegitimiza o relatório, já que é trabalhado com as medias e proporções amostrais nos outros objetivos e pelo teorema central do limite devido a nossa amostra ser grande essas estatísticas tenderão a normal. 
+
 
 #### Objetivo 6
-* Comparar a proficiência média em Matemática segundo o local da escola. A proficiência em
-Matemática é maior em escolas urbanas?
-Para obter a resposta desse objetivo, foi aplicado o teste de hipótese para duas amostras independentes pois apesar deles serem oriundas da mesma amostra não é possível uma escola ser considerada rural ou urbana ao mesmo tempo, mantendo a independência entre os dois. Supondo que são igualmente distribuidos foi considerado a hipótese inicial que o desempenho médio entre os dois espaços teriam o mesmo desempenho médio e o espaço urbano possuindo maior média comparado com a rural sendo a hipótese alternativa. 
-Na amostra de 200 :
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+
+  Para obter a resposta desse objetivo, foi aplicado o teste de hipótese para duas amostras independentes pois apesar deles serem oriundas da mesma amostra não é possível uma escola ser considerada rural ou urbana ao mesmo tempo, mantendo a independência entre os dois. Supondo que são igualmente distribuidos foi considerado a hipótese inicial que o desempenho médio entre os dois espaços teriam o mesmo desempenho médio e o espaço urbano possuindo maior média comparado com a rural sendo a hipótese alternativa. 
+  
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1$NOTA_MT[Metodos1$LOCAL == "Urbana"],Metodos1$NOTA_MT[Metodos1$LOCAL == "Rural"],  var.equal=FALSE, alternative = "greater" )
-```
-Na amostra de 50 :
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+
 t.test(Metodos1A$NOTA_MT[Metodos1A$LOCAL == "Urbana"],Metodos1$NOTA_MT[Metodos1A$LOCAL == "Rural"],  var.equal=FALSE, alternative = "greater" )
 ```
-Analisando os resultados, na amostra de 200 foi encontrado evidências de uma diferença das notas dependendo do local, enquanto na amostra de 50 o p valor encontrado é  maior que a significância de 0,05, indicando uma não relação. Portanto, o tamanho menor da segunda amostra pode estar influenciando o resultado, apesar disso, a estatistica do teste em ambos foi positiva, indicando que a media urbana foi maior que a rural em ambos os casos.
+
+  Analisando os resultados, na amostra de 200 foi encontrado evidências de uma diferença das notas dependendo do local, enquanto na amostra de 50 o p valor encontrado é  maior que a significância de 0,05, indicando uma não relação. Portanto, o tamanho menor da segunda amostra pode estar influenciando o resultado, apesar disso, a estatistica do teste em ambos foi positiva, indicando que a media urbana foi maior que a rural em ambos os casos.
 
 
 #### Objetivo 7
-* Verificar se existe diferença significativa entre as notas de Língua Portuguesa e Matemática.
-Neste caso é importante observar que se trata da busca de uma correlação entre amostras dependentes, já que ocorre a comparação de resultados da mesma escola. Para evitar os problemas por causa dessa dependência, foi utilizado o teste pareado com a suposição que a diferença da nota de lingua portuguesa com a nota de matemática é igual a 0 para a hipotese nula e para a alternativa a que essa diferença seria diferente de 0.
-Na amostra de 200 :
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+
+  Neste caso é importante observar que se trata da busca de uma correlação entre amostras dependentes, já que ocorre a comparação de resultados da mesma escola. Para evitar os problemas por causa dessa dependência, foi utilizado o teste pareado com a suposição que a diferença da nota de lingua portuguesa com a nota de matemática é igual a 0 para a hipotese nula e para a alternativa a que essa diferença seria diferente de 0.
+
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1$NOTA_LP, Metodos1$NOTA_MT, var.equal = FALSE, paired = TRUE)
-```
-Na amostra de 50 :
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+
 t.test(Metodos1A$NOTA_LP, Metodos1A$NOTA_MT,var.equal = FALSE, paired = TRUE)
 ```
-Diante dos dados apresentados, foi encontrado um p-valor menor que a significância de 0,05 em ambas as amostras e uma estatística do teste negativa. Portanto, há evidências de uma diferença significativa em que a nota de matemática é maior que a de lingua portuguesa. 
+
+  Diante dos dados apresentados, foi encontrado um p-valor menor que a significância de 0,05 em ambas as amostras e uma estatística do teste negativa. Portanto, há evidências de uma diferença significativa em que a nota de matemática é maior que a de lingua portuguesa. 
+
 
 #### Objetivo 8
 
@@ -1052,11 +1074,13 @@ chisq.test(tabela2A)
 
 ```
 
-#### Objetivo 9
-* verificar se :
 
-** a. Região e categoria administrativa estão associadas;
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+#### Objetivo 9
+  Verificar se :
+
+* a. Região e categoria administrativa estão associadas;
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 Metodos1$ADM <- droplevels(Metodos1$ADM)
 tabelaAdmReg <-table(Metodos1$ADM,Metodos1$REG)
 print(tabelaAdmReg)
@@ -1064,8 +1088,9 @@ chisq.test(tabelaAdmReg)
 ```
 
 
-** b. Tamanho da escola e tamanho do município estão associados
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+* b. Tamanho da escola e tamanho do município estão associados
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 tabelaEscMun <- table(Metodos1$TAM_MUN, Metodos1$TAM_ESCOLA)
 print(tabelaEscMun)
 chisq.test(tabelaEscMun)
@@ -1113,8 +1138,9 @@ cor.test(amostra$NOTA_MT, amostra$NOTA_LP, alternative="two.sided", method="pear
 
 ## Conclusão:
 
-* Resumo dos resultados descritos no tópico anterior, destacando as principais descobertas com relação aos objetivos propostos do trabalho.
-* Comentar dificuldades encontradas e possíveis desdobramentos do trabalho.
+  Por meio de análises detalhadas da prova Brasil de 2011 foi possível perceber muitas coisas sobre as escolas brasileiras, como o fato da maioria das escolas ter menos de 100 alunos nas séries analisadas, as notas de matemática serem mais altas que as de português, não ter tido melhora da prova Brasil de 2009 para a de 2011, a maioria das escolas participantes serem de áreas urbanas e das regiões nordeste e sudeste e que, no geral, as notas dos alunos das escolas localizadas em áreas urbanas foram melhores, entre diversas outras informações encontradas. 
+  É muito importante que o nível da educação brasileira seja conhecido, e a analise de dados como os da prova Brasil são muito importantes, pois, através deles é possível perceber alguns dos problemas do sistema educacional atual, e corrigindo-os é possível melhorar o ensino bási brasileir
+
 
 ## Referências Bibliográficas:
 
@@ -1126,7 +1152,5 @@ cor.test(amostra$NOTA_MT, amostra$NOTA_LP, alternative="two.sided", method="pear
 
 (main.R) (É para o André colocar os códigos dele ali tbm)
 
-André: importante colocar o echo= False para não aparecer os códigos
-já deixei o troço montado pra vc poder só dar ctrl+c ctrl+v
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 ```

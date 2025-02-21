@@ -13,11 +13,11 @@ dados$ADM<- factor(dados$ADM,
                    labels = c("Federal", "Estadual", "Municipal"))
 dados$TAM_MUN<- factor(dados$TAM_MUN, 
                        levels = c(1, 2, 3, 4, 5), 
-                       labels = c("<20000 hab", 
-                                  "20000 a 49999 hab", 
-                                  "50000 a 99999 hab", 
-                                  "100000 a 999999 hab", 
-                                  "1000000 ou mais"))
+                       labels = c("<20 mil hab", 
+                                  "20 a 49 mil hab", 
+                                  "50 a 99 mil hab", 
+                                  "100 a 999 mil hab", 
+                                  "1 milhao de hab >"))
 dados$TAM_ESCOLA<- factor(dados$TAM_ESCOLA,
                           levels = c(1, 2, 3, 4), 
                           labels = c("<25", 
@@ -49,14 +49,14 @@ dados %>%
                    labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
   ggplot() +
   geom_bar(aes(x = mat), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Matriculados")
+  labs(title = "", y= " ", x= "Matriculados")
 
 amostra %>%
   mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
                    labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
   ggplot() +
   geom_bar(aes(x = mat), fill= "#663399") +
-  labs(title = "", y= "Quantidade", x= "Matriculados")
+  labs(title = "", y= " ", x= "Matriculados")
 
 
 #Histograma
@@ -108,14 +108,14 @@ dados %>%
                     labels = c("< 75 %", "75% ou mais"))) %>%
   ggplot() +
   geom_bar(aes(x = part), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Matriculados")
+  labs(title = "", y= " ", x= "Matriculados")
 
 amostra %>%
   mutate(part = cut(PARTICIPACAO, breaks = seq(50, 100, length.out = 3), 
                     labels = c("< 75 %", "75% ou mais"))) %>%
   ggplot() +
   geom_bar(aes(x = part), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Matriculados")
+  labs(title = "", y= " ", x= "Matriculados")
 
 
 #Histograma
@@ -147,25 +147,6 @@ amostra %>%
   labs(title = "", y= "% de Participacao", x= "")
 
 
-#**MATRICULADOS X PARTICIPACAO**
-
-dados %>%
-  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
-                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
-  select(mat, TAM_ESCOLA) %>%
-  pivot_longer(everything()) %>%
-  ggplot() +
-  geom_bar(aes(x = value, fill = name), 
-           position = position_dodge())
-
-amostra %>%
-  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
-                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
-  select(mat, TAM_ESCOLA) %>%
-  pivot_longer(everything()) %>%
-  ggplot() +
-  geom_bar(aes(x = value, fill = name), 
-           position = position_dodge())
 
 #**Nota Lingua Portuguesa**
 #Ramo-e-folhas
@@ -184,24 +165,21 @@ dados %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa") 
+  labs(title = "", y= " ", x= "Nota Lingua Portuguesa") 
 
 amostra %>%
   mutate(nota = cut(NOTA_LP, breaks = seq(100, 250, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Nota Lingua Portuguesa")
+  labs(title = "", y= " ", x= "Nota Lingua Portuguesa")
 
 #Histograma
 dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
                      y = after_stat(density)), 
-                 fill = "#663399", 
-                 alpha = 0.9, 
+                 fill = "#663399",
                  bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_LP), sd = sd(dados$NOTA_LP)), 
-                linewidth = 1) +
   labs(title = "", y= "Densidade", x= "Nota Lingua Portugesa")
 
 amostra %>%
@@ -209,10 +187,7 @@ amostra %>%
   geom_histogram(aes(x = NOTA_LP,
                      y = after_stat(density)), 
                  fill = "#663399", 
-                 alpha = 0.9, 
                  bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_LP), sd = sd(amostra$NOTA_LP)), 
-                linewidth = 1) +
   labs(title = "", y= "Densidade", x= "Nota Lingua Portuguesa")
 
 #Boxplot
@@ -246,39 +221,31 @@ dados %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399")+
-  labs(title = "", y= "Quantidade", x= "Nota Matemática")
+  labs(title = "", y= " ", x= "Nota Matematica")
 
 amostra %>%
   mutate(nota = cut(NOTA_MT, breaks = seq(150, 300, 50))) %>%
   ggplot() +
   geom_bar(aes(x = nota), fill= "#663399") +
-  labs(title = "", y= "Quantidade", x= "Nota Matemática")
+  labs(title = "", y= " ", x= "Nota Matematica")
 
 #Histograma
-media = mean(dados$NOTA_MT)
-desvio  = sd(dados$NOTA_MT)
+
 dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_MT,
                      y = after_stat(density)),
                  fill = "#663399",
-                 alpha = 0.9,
                  bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_MT), sd = sd(dados$NOTA_MT)), 
-                linewidth = 1)+
   labs(title = "", y= "Densidade", x= "Nota Matematica")
 
-media = mean(amostra$NOTA_MT)
-desvio  = sd(amostra$NOTA_MT)
+
 amostra %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_MT,
                      y = after_stat(density)),
                  fill = "#663399",
-                 alpha = 0.9,
                  bins = 10) +
-  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_MT), sd = sd(amostra$NOTA_MT)), 
-                linewidth = 1)+
   labs(title = "", y= "Densidade", x= "Nota Matematica")
 
 #Boxplot
@@ -291,35 +258,6 @@ amostra %>%
   ggplot() +
   geom_boxplot(aes(y = NOTA_MT), fill= "#663399")+
   labs(title = "", y= "Nota de Lingua Portuguesa", x= "")
-
-
-#**Notas MT X LP**
-dados %>%
-  select(NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
-  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
-  ggplot() +
-  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
-
-amostra %>%
-  select(NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
-  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
-  ggplot() +
-  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
-
-
-dados %>%
-  select(NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
-  ggplot() +
-  geom_boxplot(aes(y = nota, x = materia))
-
-amostra %>%
-  select(NOTA_LP, NOTA_MT) %>%
-  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
-  ggplot() +
-  geom_boxplot(aes(y = nota, x = materia))
 
 
 #**Medidas de: MATRICULADOS, PARTICIPACAO, NOTA_LP e NOTA_MT**
@@ -343,6 +281,10 @@ excesso_curtose <- function(values)
   
   ((sum(((values - m)^4)/n)) / (s^4)) - 3 # a curtose de uma normal padrao e igual a 3
 }
+
+# o número que sair é o excesso de curtose
+# o quanto os dados são mais ou menos curticos do que uma normal padrão
+# sendo a normal padrão 0 nessa escala
 
 assimetria_corrigida_pearson <- \(values) # Ainda e uma funcao so q com uma notacao diferente, function() == \()
 {
@@ -418,64 +360,114 @@ kable(table(dados$REG))
 dados %>%
   ggplot() +
   geom_bar(aes(x = REG), fill="#663399") +
-  labs(y= "Quantidade", x= "Regiao")
+  labs(y= " ", x= "Regiao")
 
 table(amostra$REG)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = REG), fill="#663399")+
-  labs(y= "Quantidade", x= "Regiao")
+  labs(y= " ", x= "Regiao")
 
 
 table(dados$LOCAL)
 dados %>%
   ggplot() +
   geom_bar(aes(x = LOCAL), fill= "#663399")+
-  labs(y= "Quantidade", x= "Local")
+  labs(y= " ", x= "Local")
 
 table(amostra$LOCAL)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = LOCAL), fill= "#663399")+
-  labs(y= "Quantidade", x= "Local")
+  labs(y= " ", x= "Local")
 
 
 table(dados$TAM_MUN)
 dados %>%
   ggplot() +
   geom_bar(aes(x = TAM_MUN), fill= "#663399")+
-  labs(y= "Quantidade", x= "Tamanho do Municipio")
+  labs(y= " ", x= "Tamanho do Municipio")
 
 table(amostra$TAM_MUN)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = TAM_MUN), fill= "#663399")+
-  labs(y= "Quantidade", x= "Tamanho do muncipio")
+  labs(y= " ", x= "Tamanho do muncipio")
 
 
 table(dados$ADM)
 dados %>%
   ggplot() +
   geom_bar(aes(x = ADM), fill= "#663399")+
-  labs(y= "Quantidade", x= "Administracao")
+  labs(y= "", x= "Administracao")
 
 table(amostra$ADM)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = ADM), fill= "#663399")+
-  labs(y= "Quantidade", x= "Administracao")
+  labs(y= "", x= "Administracao")
 
 table(dados$TAM_ESCOLA)
 dados %>%
   ggplot() +
   geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")+
-  labs(y= "Quantidade", x= "Tamanho da Escola")
+  labs(y= "", x= "Tamanho da Escola")
 
 table(amostra$TAM_ESCOLA)
 amostra %>%
   ggplot() +
   geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")+
-  labs(y= "Quantidade", x= "Tamanho da Escola")
+  labs(y= "", x= "Tamanho da Escola")
+
+
+#**MATRICULADOS X PARTICIPACAO**
+
+dados %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  select(mat, TAM_ESCOLA) %>%
+  pivot_longer(everything()) %>%
+  ggplot() +
+  geom_bar(aes(x = value, fill = name), 
+           position = position_dodge()) +
+  labs(y= "", x= "Quantidade de Matriculados")
+
+amostra %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  select(mat, TAM_ESCOLA) %>%
+  pivot_longer(everything()) %>%
+  ggplot() +
+  geom_bar(aes(x = value, fill = name), 
+           position = position_dodge())
+
+#**Notas MT X LP**
+dados %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
+
+amostra %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
+
+
+dados %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  ggplot() +
+  geom_boxplot(aes(y = nota, x = materia))
+
+amostra %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  ggplot() +
+  geom_boxplot(aes(y = nota, x = materia))
 
 ################################################################################
 ################################################################################
