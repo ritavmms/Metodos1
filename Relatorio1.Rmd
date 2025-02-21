@@ -16,8 +16,8 @@ OBS: A apresentação da atividade deverá seguir as normas ABNT de apresentaç�
 
 ## Introdução:
 
-  O Sistema de Avaliação da Educação Básica (Saeb) é uma avaliação que busca informações das escolas no Brasil visando a melhoria da qualidade, equidade e eficiência do ensino. Essa avaliação, criada em 1990 pelo Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP) e realizada de 2 em 2 anos, testa o conhecimento de Língua Portuguesa e Matemática, além de apresentar um Questionário Socioeconômico. Em 2005, o INEP reestruturou o Saeb, onde recebeu uma parte censitária conhecida como Prova Brasil que é dividida em duas avaliações: a Avaliação Nacional da Educação Básica (Aneb) e Avaliação Nacional do Rendimento Escolar (Anresc). Utilizando os resultados dessas provas, é possível calcular o Índice de Desenvolvimento da Educação Básica (Ideb) de todo o país. 
-  Em 2011, todas as escolas com pelo menos 20 estudantes matriculados no 5° ano (4ª série) e 9° ano (8ª série) foram avaliadas na Prova Brasil, totalizando 4.286.276 de estudantes. Essa prova será o foco desse estudo, que busca analisar o desempenho de estudantes de escolas públicas que frequentam o 5° ano do Ensino Fundamental.
+  O Sistema de Avaliação da Educação Básica (Saeb) é uma avaliação que busca informações das escolas no Brasil visando a melhoria da qualidade, equidade e eficiência do ensino. Essa avaliação, criada em 1990 pelo Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP) e realizada de 2 em 2 anos, testa o conhecimento de Língua Portuguesa e Matemática, além de apresentar um Questionário Socioeconômico. Em 2005, o INEP reestruturou o Saeb, onde recebeu uma parte censitária conhecida como Prova Brasil que é dividida em duas avaliações: a Avaliação Nacional da Educação Básica (Aneb) e Avaliação Nacional do Rendimento Escolar (Anresc). Utilizando os resultados dessas provas, é possível calcular o índice de Desenvolvimento da Educação Básica (Ideb) de todo o país. 
+  Em 2011, todas as escolas com pelo menos 20 estudantes matriculados no 5° ano (4ª série) e 9° ano (8ª série) foram avaliadas na Prova Brasil, totalizando 4.286.276 de estudantes. Essa prova será o foco desse estudo, que busca analisar o desempenho de estudantes de escolas públicas que frequentam o 5° ano do Ensino Fundamental.
 
 
 ## Objetivos:
@@ -49,7 +49,7 @@ seja se estão associadas
 
 ## Metodologia:
 
-  As análises dos dados foram feitas com o aplicativo r studio. Para as análises foram feitos diversos gráficos, como os de ramo e folhas, boxplots e histogramas, esses gráficos ajudam a visualizar as informações e entender melhor o comportamento das variáveis. Também foram feitos testes de hipótese, eles são utilizados quando se tem uma suspeita de que certa coisa está acontecendo, e por meio deles confirmamos se essa suspeita realmente acontece, um dos casos que encontraremos nesse relatório, foi para descobrir se houve melhora da prova Brasil de 2009 para a de 2011.
+  As análises dos dados foram feitas com o aplicativo r studio. Para as análises foram feitos diversos gráficos, como os de ramo e folhas, boxplots e histogramas, esses gráficos ajudam a visualizar as informações e entender melhor o comportamento das variáveis. Também foram feitos testes de hipótese, eles são utilizados quando se tem uma suspeita de que certa coisa está acontecendo, e por meio deles confirmamos se essa suspeita realmente acontece, um dos casos que encontraremos nesse relatório, foi para descobrir se houve melhora da prova Brasil de 2009 para a de 2011.
   
 
 ## Resultados:
@@ -909,12 +909,12 @@ AN <- nrow(amostra)
 dados <- dados %>%
   mutate(part75 = PARTICIPACAO < 75)
 p_sumD <- sum(dados$part75)
-p_testD <- prop.test(p_sum, n = DN, conf.level=1-alpha)
+p_testD <- prop.test(p_sumD, n = DN, conf.level=1-alpha)
 
 amostra <- amostra %>%
   mutate(part75 = PARTICIPACAO < 75)
 p_sumA <- sum(amostra$part75)
-p_testA <- prop.test(p_sum, n = AN, conf.level=1-alpha)
+p_testA <- prop.test(p_sumA, n = AN, conf.level=1-alpha)
 
 p_testD$conf.int
 p_testD$estimate
@@ -1224,8 +1224,8 @@ cor.test(amostra$NOTA_MT, amostra$NOTA_LP, alternative="two.sided", method="pear
 
 ## Conclusão:
 
-  Por meio de análises detalhadas da prova Brasil de 2011 foi possível perceber muitas coisas sobre as escolas brasileiras, como o fato da maioria das escolas ter menos de 100 alunos nas séries analisadas, as notas de matemática serem mais altas que as de português, não ter tido melhora da prova Brasil de 2009 para a de 2011, a maioria das escolas participantes serem de áreas urbanas e das regiões nordeste e sudeste e que, no geral, as notas dos alunos das escolas localizadas em áreas urbanas foram melhores, entre diversas outras informações encontradas. 
-  É muito importante que o nível da educação brasileira seja conhecido, e a analise de dados como os da prova Brasil são muito importantes, pois, através deles é possível perceber alguns dos problemas do sistema educacional atual, e corrigindo-os é possível melhorar o ensino básico brasileiro.
+  Por meio de análises detalhadas da prova Brasil de 2011 foi possível perceber muitas coisas sobre as escolas brasileiras, como o fato da maioria das escolas ter menos de 100 alunos nas séries analisadas, as notas de matemática serem mais altas que as de português, não ter tido melhora da prova Brasil de 2009 para a de 2011, a maioria das escolas participantes serem de áreas urbanas e das regiões nordeste e sudeste e que, no geral, as notas dos alunos das escolas localizadas em áreas urbanas foram melhores, entre diversas outras informações encontradas. 
+  é muito importante que o nível da educação brasileira seja conhecido, e a analise de dados como os da prova Brasil são muito importantes, pois, através deles é possível perceber alguns dos problemas do sistema educacional atual, e corrigindo-os é possível melhorar o ensino básico brasileiro.
 
 
 ## Referências Bibliográficas:
