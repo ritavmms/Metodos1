@@ -15,9 +15,10 @@ OBS: A apresentação da atividade deverá seguir as normas ABNT de apresentaç�
 
 
 ## Introdução:
-* Incialmente explicar o que é o Sistema de Avaliação do Ensino Básico e como a Prova Brasil se insere neste sistema. (Ler documento Microdados Prova Brasil 2011 - Manual do Usuário disponível na plataforma)
-* Explicar o que é a Prova Brasil e em particular a Prova Brasil de 2011. (Ler documento Microdados Prova Brasil 2011 - Manual do Usuário disponível na plataforma)
-* Finalmente, explicar o qual é o trabalho que será desenvolvido. (Ler primeiro parágrafo da proposta do Trabalho Final disponível na plataforma)
+
+  O Sistema de Avaliação da Educação Básica (Saeb) é uma avaliação que busca informações das escolas no Brasil visando a melhoria da qualidade, equidade e eficiência do ensino. Essa avaliação, criada em 1990 pelo Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP) e realizada de 2 em 2 anos, testa o conhecimento de Língua Portuguesa e Matemática, além de apresentar um Questionário Socioeconômico. Em 2005, o INEP reestruturou o Saeb, onde recebeu uma parte censitária conhecida como Prova Brasil que é dividida em duas avaliações: a Avaliação Nacional da Educação Básica (Aneb) e Avaliação Nacional do Rendimento Escolar (Anresc). Utilizando os resultados dessas provas, é possível calcular o Índice de Desenvolvimento da Educação Básica (Ideb) de todo o país. 
+  Em 2011, todas as escolas com pelo menos 20 estudantes matriculados no 5° ano (4ª série) e 9° ano (8ª série) foram avaliadas na Prova Brasil, totalizando 4.286.276 de estudantes. Essa prova será o foco desse estudo, que busca analisar o desempenho de estudantes de escolas públicas que frequentam o 5° ano do Ensino Fundamental.
+
 
 ## Objetivos:
 
@@ -48,14 +49,11 @@ seja se estão associadas
 
 ## Metodologia:
 
-* Comente sobre a coleta de dados da Prova Brasil: população alvo, população acessível, características levantadas e método de coleta. (Ler documento Microdados Prova Brasil 2011 - Manual do Usuário disponível na plataforma).
-* Relacione as variáveis disponibilizadas na amostra que vocês receberam e classifique-as segundo o tipo.
-* Comentar sobre a(s) técnica(s) de análise empregada, justificando o seu emprego e os limites para a sua aplicação.
-* Especificar o(s) programa(s) utilizados na análise de dados.
+  As análises dos dados foram feitas com o aplicativo r studio. Para as análises foram feitos diversos gráficos, como os de ramo e folhas, boxplots e histogramas, esses gráficos ajudam a visualizar as informações e entender melhor o comportamento das variáveis. Também foram feitos testes de hipótese, eles são utilizados quando se tem uma suspeita de que certa coisa está acontecendo, e por meio deles confirmamos se essa suspeita realmente acontece, um dos casos que encontraremos nesse relatório, foi para descobrir se houve melhora da prova Brasil de 2009 para a de 2011.
+  
 
 ## Resultados:
 
-_Vou colocar os códigos aqui pra conseguir rodar as coisas_
 
 ```{r, include=FALSE}
 # Importando pacotes
@@ -110,8 +108,6 @@ Metodos1A <-Metodos1 %>% sample_n(size=50)
 ```
 
 ### Análise das variáveis
-
-* Fazer a análise completa das variáveis pesquisadas e interpretar os resultados:
 
 #### Quantitativas:
 
@@ -518,7 +514,7 @@ amostra %>%
 
 ####### Histograma
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de matem para as amostras de tamanho $n$"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de matemática para as amostras de tamanho $n$"}
 
 #Histograma
 
@@ -544,7 +540,7 @@ amostra %>%
 
 ####### Boxplot
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot das notas de matemática para as amostras de tamanho $n$"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -727,7 +723,10 @@ ggplot(data = Metodos1A) +
 
 #### Objetivo 1
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+  Para facilitar esse Objetivo foi feito em dois passos, primeiramente para facilitar a visualização dos dados, eles foram colocados em gráficos 
+
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico de barras das regiões para as amostras de tamanho $n$"}
 #**OBJETIVO 1**
 #**Descrever as características das escolas e o desempenho de seus estudantes na Prova**
 
@@ -746,7 +745,7 @@ amostra %>%
 ```
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico de barras do local das escolas para as amostras de tamanho $n$"}
 
 table(dados$LOCAL)
 dados %>%
@@ -762,7 +761,7 @@ amostra %>%
 ```
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico de barras do tamanho do município para as amostras de tamanho $n$"}
 
 table(dados$TAM_MUN)
 dados %>%
@@ -779,7 +778,7 @@ amostra %>%
 ```
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico de barras do tipo de administração para as amostras de tamanho $n$"}
 
 table(dados$ADM)
 dados %>%
@@ -795,7 +794,7 @@ amostra %>%
 ```
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico de barras do tamanho da escola para as amostras de tamanho $n$"}
 
 table(dados$TAM_ESCOLA)
 dados %>%
@@ -810,74 +809,158 @@ amostra %>%
   labs(y= "", x= "Tamanho da Escola")
 ```
 
-  A Região com mais escolas é a Sudeste, seguida do Nordeste, a maioria das escolas estão em areras Urbanas, com administração Municipal. Tem mais municípios entre 50 a 99 mil habitantes, seguidos pelos que tem menos de 20 mil habitantes. Escolas com menos de 25 estudantes estão na minoria, sendo mais comum ter escolas entre 25 e 49 estudantes.
+  A Região com mais escolas é a Sudeste, seguida do Nordeste, a maioria das escolas estão em áreras Urbanas, com administração Municipal. Tem mais municípios entre 50 a 99 mil habitantes, seguidos pelos que tem menos de 20 mil habitantes. Escolas com menos de 25 estudantes estão na minoria, sendo mais comum ter escolas entre 25 e 49 estudantes.Tendo em vista a situação das escolas, e onde elas se localizam, vamos análisar o desempenho dos alunos na Prova Brasil.
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico de barras comparando os alunos matriculados na Prova Brasil e na escola para as amostras de tamanho $n$"}
 
+#**MATRICULADOS X PARTICIPACAO**
+dados %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  select(mat, TAM_ESCOLA) %>%
+  pivot_longer(everything()) %>%
+  ggplot() +
+  geom_bar(aes(x = value, fill = name), 
+           position = position_dodge()) +
+  labs(y= "", x= "Alunos Matriculados") + 
+  scale_fill_manual(name = "Legenda", 
+                    labels = c("Prova Brasil", "Escola"),
+                    values = c("mat"= "#663399", "TAM_ESCOLA"= "#d4b4f6"))
 
+amostra %>%
+  mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
+                   labels = c("<25", "25 a 49","50 a 99","100 ou mais"))) %>%
+  select(mat, TAM_ESCOLA) %>%
+  pivot_longer(everything()) %>%
+  ggplot() +
+  geom_bar(aes(x = value, fill = name), 
+           position = position_dodge())+
+  labs(y= "", x= "Alunos Matriculados")+ 
+  scale_fill_manual(name = "Legenda", 
+                    labels = c("Prova Brasil", "Escola"),
+                    values = c("mat"= "#663399", "TAM_ESCOLA"= "#d4b4f6"))
 
 
 ```
 
 
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Grafico de barras comparando as notas de portugues e matemática para as amostras de tamanho $n$"}
+
+#**Notas MT X LP**
+dados %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge()) +
+  labs(y= "", x= "Notas")+ 
+  scale_fill_manual(name = "Legenda", 
+                    labels = c("Lingua Portuguesa", "Matematica"),
+                    values = c("NOTA_MT"= "#663399", "NOTA_LP"= "#d4b4f6"))
+
+amostra %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
+  ggplot() +
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())+
+  labs(y= "", x= "Notas")+ 
+  scale_fill_manual(name = "Legenda", 
+                    labels = c("Lingua Portuguesa", "Matematica"),
+                    values = c("NOTA_MT"= "#663399", "NOTA_LP"= "#d4b4f6"))
+
+```
+
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot das notas de Portugues e Matemática para as amostras de tamanho $n$"}
+
+dados %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  ggplot() +
+  geom_boxplot(aes(y = nota, x = materia), fill= "#663399")+
+  labs(y= "Notas", x= "Materia")
+
+amostra %>%
+  select(NOTA_LP, NOTA_MT) %>%
+  pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
+  ggplot() +
+  geom_boxplot(aes(y = nota, x = materia), fill= "#663399")+
+  labs(y= "Notas", x= "Materia")
+```
+
+  A maioria dos alunos fizeram parte da Prova Brasil sendo as notas de Matemática em sua maioria entre 200 e 250 e as de Lingua Portuguesa entre 150 e 200 respectivamente, mostrando mais uma vez que as notas de Matemática foram mais altas do que as de Português.
 
 
 #### Objetivo 2
 
-* Estimar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova
+  Para estimar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova Brasil foram utilizados intervalos de confiança sobre a porcentagem de participação. Foi utilizado essa técnica pois não é possivel dar um valor certo para a proporção mas o intervalo de confiança resulta uma faixa de valores onde a verdadeira proporção se encontra.
 
 
 ```{r, echo=FALSE}
 #**OBJETIVO 2**
+#*#Estimar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova
 #Risco máximo de 5%
 alpha <- 0.05
-N <- nrow(dados)
+DN <- nrow(dados)
+AN <- nrow(amostra)
 
 dados <- dados %>%
   mutate(part75 = PARTICIPACAO < 75)
-p_sum <- sum(dados$part75)
-p_test <- prop.test(p_sum, n = N, conf.level=1-alpha)
+p_sumD <- sum(dados$part75)
+p_testD <- prop.test(p_sum, n = DN, conf.level=1-alpha)
 
 amostra <- amostra %>%
   mutate(part75 = PARTICIPACAO < 75)
-p_sum <- sum(amostra$part75)
-p_test <- prop.test(p_sum, n = N, conf.level=1-alpha)
+p_sumA <- sum(amostra$part75)
+p_testA <- prop.test(p_sum, n = AN, conf.level=1-alpha)
 
+p_testD$conf.int
+p_testD$estimate
 
-p_test$conf.int
-p_test$estimate
-
+p_testA$conf.int
+p_testA$estimate
 ```
 
+  Com uma confiança de 95% podemos estimar que a proporção de escolas que menos de 75% de seus estudantes participaram da Prova Brasil é de 0,015 no intervalo entre 0,0038 e 0,04675 para a amostra de 200 e essa proporção já sobe para 0,06 no intervalo entre 0,0156 e 0,1754 na amostra de 50.
+
 #### Objetivo 3
-* Estimar a proficiência média em Língua Portuguesa e em Matemática das escolas na Prova Brasil em 2011
-Proficiência média em Lingua Portuguesa :
-Para estimar a proficiência média foi utilizado intervalos de confiança com uma confiança de 95% sobre os resultados de desempenho médio nas provas de lingua portuguesa e matemática. Foi utilizado essa técnica pois não é possivel dar um valor certo para essas proficiências mas o intervalo de confiança resulta uma faixa de valores onde a verdadeira média se encontra.
+
+  Para estimar a proficiência média foi utilizado intervalos de confiança com uma confiança de 95% sobre os resultados de desempenho médio nas provas de lingua portuguesa e matemática. Foi utilizado essa técnica pois não é possivel dar um valor certo para essas proficiências mas o intervalo de confiança resulta uma faixa de valores onde a verdadeira média se encontra.
+
 * Proficiência média em Lingua Portuguesa pela amostra aleatória inicial
+
 ```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1$NOTA_LP, conf.level = 0.95)
 ```
+
 * Estimando pela amostra aleatória de 50 observações
+
 ```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1A$NOTA_LP, conf.level = 0.95 )
 ```
+
 * Proficiência média em Matemática pela amostra aleatória inicial
+
 ```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1$NOTA_MT, conf.level = 0.95 )
 ```
+
 * Proficiência média em Matemática pela amostra aleatória de 50 observações
+
 ```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
 t.test(Metodos1A$NOTA_MT, conf.level = 0.95 )
 ```
+
   Os resultados indicam que as notas possuem os seguintes intervalos : 
 * lingua portuguesa 
-** Amostra de 200 : 181 e 187
-** Amostra de 50 : 177 e 190 
+Amostra de 200 : 181 e 187
+Amostra de 50 : 177 e 190 
 
 * Matemática
-** Amostra de 200: 200 e 207
-** Amostra de 50: 196 a 209
+Amostra de 200: 200 e 207
+Amostra de 50: 196 a 209
   
   Note que para a amostra de 50 os intervalos são maiores devido o menor tamanho da amostra mas que ainda mantem a faixa de valores encontrada inicialmente com a amostra aleatória inicial. 
 
@@ -904,12 +987,15 @@ t.test(amostra$NOTA_MT, mu=204.3, alternative = "greater", conf.level = 1-alpha)
 # nao encontramos evidencias para acreditar que houve melhora na nota de MT entre  2009 e 2011
 ```
 
+
+
+
 #### Objetivo 5
 
   Para verificar se essas notas seguem a distribuição normal, foi feito o teste de Aderência. A partir disso, é considerado que para a hipotese nula seja satisfeita, os valores das notas devem seguir a distribuição normal com a media e variância encontrada pela amostra.
 
-* Histogramas e testes para as notas em Lingua Portuguesa :
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de portugues para as amostras de tamanho $n$"}
 dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
@@ -941,7 +1027,7 @@ chisq.test(normalPortA, p = Metodos1A$NOTA_LP / sum(Metodos1A$NOTA_LP))
 
 * Teste para as notas em Matemática : 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de matemática para as amostras de tamanho $n$"}
 #Histograma
 media = mean(dados$NOTA_MT)
 desvio  = sd(dados$NOTA_MT)
@@ -1104,7 +1190,7 @@ chisq.test(tabelaEscMun)
 * Verificar se a nota em LP é um bom indicador para predizer a nota existe em MT, ou seja se estão associadas
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico das notas de matematica eportugues para as amostras de tamanho $n$"}
 #**OBJETIVO 10**
 
 Dfit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
@@ -1139,7 +1225,7 @@ cor.test(amostra$NOTA_MT, amostra$NOTA_LP, alternative="two.sided", method="pear
 ## Conclusão:
 
   Por meio de análises detalhadas da prova Brasil de 2011 foi possível perceber muitas coisas sobre as escolas brasileiras, como o fato da maioria das escolas ter menos de 100 alunos nas séries analisadas, as notas de matemática serem mais altas que as de português, não ter tido melhora da prova Brasil de 2009 para a de 2011, a maioria das escolas participantes serem de áreas urbanas e das regiões nordeste e sudeste e que, no geral, as notas dos alunos das escolas localizadas em áreas urbanas foram melhores, entre diversas outras informações encontradas. 
-  É muito importante que o nível da educação brasileira seja conhecido, e a analise de dados como os da prova Brasil são muito importantes, pois, através deles é possível perceber alguns dos problemas do sistema educacional atual, e corrigindo-os é possível melhorar o ensino bási brasileir
+  É muito importante que o nível da educação brasileira seja conhecido, e a analise de dados como os da prova Brasil são muito importantes, pois, através deles é possível perceber alguns dos problemas do sistema educacional atual, e corrigindo-os é possível melhorar o ensino básico brasileiro.
 
 
 ## Referências Bibliográficas:

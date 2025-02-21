@@ -3,6 +3,7 @@ if(!require("pacman")) install.packages("pacman")
 pacman::p_load(latex2exp, knitr, tidyverse)
 
 
+
 #Lendo os dados
 dados <- readxl::read_xlsx("Amostra_g04_Andre_Camila_Rita.xlsx")
 dados$LOCAL <- factor(dados$LOCAL,
@@ -430,7 +431,10 @@ dados %>%
   ggplot() +
   geom_bar(aes(x = value, fill = name), 
            position = position_dodge()) +
-  labs(y= "", x= "Quantidade de Matriculados")
+  labs(y= "", x= "Alunos Matriculados") + 
+  scale_fill_manual(name = "Legenda", 
+                    labels = c("Prova Brasil", "Escola"),
+                    values = c("mat"= "#663399", "TAM_ESCOLA"= "#d4b4f6"))
 
 amostra %>%
   mutate(mat = cut(MATRICULADOS, breaks = c(0, 25, 50, 100, Inf), 
@@ -439,7 +443,11 @@ amostra %>%
   pivot_longer(everything()) %>%
   ggplot() +
   geom_bar(aes(x = value, fill = name), 
-           position = position_dodge())
+           position = position_dodge())+
+  labs(y= "", x= "Alunos Matriculados")+ 
+  scale_fill_manual(name = "Legenda", 
+                    labels = c("Prova Brasil", "Escola"),
+                    values = c("mat"= "#663399", "TAM_ESCOLA"= "#d4b4f6"))
 
 #**Notas MT X LP**
 dados %>%
@@ -447,27 +455,38 @@ dados %>%
   pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
   mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge()) +
+  labs(y= "", x= "Notas")+ 
+  scale_fill_manual(name = "Legenda", 
+                    labels = c("Lingua Portuguesa", "Matematica"),
+                    values = c("NOTA_MT"= "#663399", "NOTA_LP"= "#d4b4f6"))
 
 amostra %>%
   select(NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
   mutate(nota_cat = cut(nota, breaks = seq(0, 500, 50))) %>%
   ggplot() +
-  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())
+  geom_bar(aes(x = nota_cat, fill = materia), position = position_dodge())+
+  labs(y= "", x= "Notas")+ 
+  scale_fill_manual(name = "Legenda", 
+                    labels = c("Lingua Portuguesa", "Matematica"),
+                    values = c("NOTA_MT"= "#663399", "NOTA_LP"= "#d4b4f6"))
+
 
 
 dados %>%
   select(NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
   ggplot() +
-  geom_boxplot(aes(y = nota, x = materia))
+  geom_boxplot(aes(y = nota, x = materia), fill= "#663399")+
+  labs(y= "Notas", x= "Materia")
 
 amostra %>%
   select(NOTA_LP, NOTA_MT) %>%
   pivot_longer(everything(), names_to = "materia", values_to = "nota") %>%
   ggplot() +
-  geom_boxplot(aes(y = nota, x = materia))
+  geom_boxplot(aes(y = nota, x = materia), fill= "#663399")+
+  labs(y= "Notas", x= "Materia")
 
 ################################################################################
 ################################################################################
@@ -477,20 +496,25 @@ amostra %>%
 #**Estimar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova**
 #Risco máximo de 5%
 alpha <- 0.05
-N <- nrow(dados)
+DN <- nrow(dados)
+AN <- nrow(amostra)
 
 dados <- dados %>%
   mutate(part75 = PARTICIPACAO < 75)
-p_sum <- sum(dados$part75)
-p_test <- prop.test(p_sum, n = N, conf.level=1-alpha)
+p_sumD <- sum(dados$part75)
+p_testD <- prop.test(p_sum, n = DN, conf.level=1-alpha)
 
 amostra <- amostra %>%
   mutate(part75 = PARTICIPACAO < 75)
-p_sum <- sum(amostra$part75)
-p_test <- prop.test(p_sum, n = N, conf.level=1-alpha)
+p_sumA <- sum(amostra$part75)
+p_testA <- prop.test(p_sum, n = AN, conf.level=1-alpha)
 
-p_test$conf.int
-p_test$estimate
+p_testD$conf.int
+p_testD$estimate
+
+p_testA$conf.int
+p_testA$estimate
+
 
 ################################################################################
 ################################################################################
