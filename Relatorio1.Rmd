@@ -13,6 +13,8 @@ cache: true
 
 OBS: A apresentação da atividade deverá seguir as normas ABNT de apresentação de relatórios de pesquisa e as Normas de Apresentação Tabular.
 
+## Índice
+
 
 ## Introdução:
 
@@ -408,7 +410,7 @@ cat(Filter(function(s) grepl("decimal|\\|.*[0-9]", s),
 
 ####### Distribuição de frequências com intervalos de classe
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Distribuição de frequências com intervalos de classe das notas de Portugues para as amostras de tamanho $n$"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Distribuição de frequências com intervalos de classe das notas de Português para as amostras de tamanho $n$"}
 
 #Distribuição de frequências com intervalos de classe
 dados %>%
@@ -431,7 +433,7 @@ ambas as amostras é muito semelhante nas notas.
 
 ####### Histograma
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de Portugues para as amostras de tamanho $n$"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de Português para as amostras de tamanho $n$"}
 #Histograma
 dados %>%
   ggplot() +
@@ -458,7 +460,7 @@ amostra %>%
 
 ####### Boxplot
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot das notas de Portugues para as amostras de tamanho $n$"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot das notas de Português para as amostras de tamanho $n$"}
 #Boxplot
 dados %>%
   ggplot() +
@@ -721,9 +723,9 @@ ggplot(data = Metodos1A) +
 ### Técnicas de Análise
 * Para cada objetivo comentar sobre a(s) técnica(s) de análise empregada, justificando o seu emprego e os limites para sua aplicação. Comentar os resultados obtidos.
 
-#### Objetivo 1
+#### Objetivo 1:
 
-  Para facilitar esse Objetivo foi feito em dois passos, primeiramente para facilitar a visualização dos dados, eles foram colocados em gráficos 
+  Para facilitar esse Objetivo foi feito em dois passos, primeiramente para facilitar a visualização dos dados, eles foram colocados em gráficos. O primeiro passo foi de análisar as cracterísticas das escolas que temos acesso, ou seja, análisamos as Regiões, o Local, o tamanho do município, o tipo de administração e o tamanho da escola. A segunda parte foi de análisar como os estudantes foram na prova, ou seja, análisamos as notas de lingua portuguesa e matemática, a porcentagem de participação e a quantidade de matriculados.
 
 
 ```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico de barras das regiões para as amostras de tamanho $n$"}
@@ -845,7 +847,7 @@ amostra %>%
 ```
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Grafico de barras comparando as notas de portugues e matemática para as amostras de tamanho $n$"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Grafico de barras comparando as notas de Português e matemática para as amostras de tamanho $n$"}
 
 #**Notas MT X LP**
 dados %>%
@@ -873,7 +875,7 @@ amostra %>%
 ```
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot das notas de Portugues e Matemática para as amostras de tamanho $n$"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Boxplot das notas de Português e Matemática para as amostras de tamanho $n$"}
 
 dados %>%
   select(NOTA_LP, NOTA_MT) %>%
@@ -893,7 +895,7 @@ amostra %>%
   A maioria dos alunos fizeram parte da Prova Brasil sendo as notas de Matemática em sua maioria entre 200 e 250 e as de Lingua Portuguesa entre 150 e 200 respectivamente, mostrando mais uma vez que as notas de Matemática foram mais altas do que as de Português.
 
 
-#### Objetivo 2
+#### Objetivo 2:
 
   Para estimar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova Brasil foram utilizados intervalos de confiança sobre a porcentagem de participação. Foi utilizado essa técnica pois não é possivel dar um valor certo para a proporção mas o intervalo de confiança resulta uma faixa de valores onde a verdadeira proporção se encontra.
 
@@ -925,7 +927,7 @@ p_testA$estimate
 
   Com uma confiança de 95% podemos estimar que a proporção de escolas que menos de 75% de seus estudantes participaram da Prova Brasil é de 0,015 no intervalo entre 0,0038 e 0,04675 para a amostra de 200 e essa proporção já sobe para 0,06 no intervalo entre 0,0156 e 0,1754 na amostra de 50.
 
-#### Objetivo 3
+#### Objetivo 3:
 
   Para estimar a proficiência média foi utilizado intervalos de confiança com uma confiança de 95% sobre os resultados de desempenho médio nas provas de lingua portuguesa e matemática. Foi utilizado essa técnica pois não é possivel dar um valor certo para essas proficiências mas o intervalo de confiança resulta uma faixa de valores onde a verdadeira média se encontra.
 
@@ -964,9 +966,10 @@ Amostra de 50: 196 a 209
   
   Note que para a amostra de 50 os intervalos são maiores devido o menor tamanho da amostra mas que ainda mantem a faixa de valores encontrada inicialmente com a amostra aleatória inicial. 
 
-#### Objetivo 4
+#### Objetivo 4:
 
-* Verificar se houve melhora do resultado da Prova Brasil de 2009 para 2011.
+  Primeiramente é importante pontuar que na Prova realizada em 2009 a proficiência em lingua portuguesa foi 184,3 e em matemática 204,3 , para comparar essas proeficiencias com as de 2011 é necessário fazer um teste de hipótese já que proeficiencia não pode ser medida facilmente. 
+
 
 ```{r, echo=FALSE}
 #**OBJETIVO 4**
@@ -979,6 +982,15 @@ t.test(amostra$NOTA_LP, mu=184.3, alternative = "greater", conf.level = 1-alpha)
 # resultado: como p-valor = 0.4545 > 0.05, não rejeitamos h0
 # nao encontramos evidencias para acreditar que houve melhora na nota de LP entre  2009 e 2011
 
+```
+
+Sendo:
+h0: nota Português de 2011 é menor ou igual a nota LP de 2009
+h1: nota Português de 2011 é maior que a nota LP de 2009
+  Chegamos a conclusão de que não houve uma melhora na nota de Português, já que o p-valor é de 0,4545 > 0,05 , isso se mantém verdade na amostra de 50 com o p-valor de 0,5725.
+
+
+```{r, echo=FALSE}
 # h0: nota MT de 2011 e menor ou igual a nota MT de 2009
 # h1: nota MT de 2011 e maior que a nota MT de 2009
 t.test(dados$NOTA_MT, mu=204.3, alternative = "greater", conf.level = 1-alpha)
@@ -987,15 +999,18 @@ t.test(amostra$NOTA_MT, mu=204.3, alternative = "greater", conf.level = 1-alpha)
 # nao encontramos evidencias para acreditar que houve melhora na nota de MT entre  2009 e 2011
 ```
 
+Sendo:
+h0: nota Matemática de 2011 e menor ou igual a nota MT de 2009
+h1: nota Matemática de 2011 e maior que a nota MT de 2009
+  Chegamos a conclusão de que não houve melhora na nota de Matemática, já que o p-valor 0,6328 > 0,05, isso se mantém verdade na amostra de 50 com o p-valor de 0,6779.
 
 
-
-#### Objetivo 5
+#### Objetivo 5:
 
   Para verificar se essas notas seguem a distribuição normal, foi feito o teste de Aderência. A partir disso, é considerado que para a hipotese nula seja satisfeita, os valores das notas devem seguir a distribuição normal com a media e variância encontrada pela amostra.
 
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de portugues para as amostras de tamanho $n$"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Histograma das notas de Português para as amostras de tamanho $n$"}
 dados %>%
   ggplot() +
   geom_histogram(aes(x = NOTA_LP,
@@ -1066,7 +1081,7 @@ chisq.test(normalMtA, p = Metodos1A$NOTA_MT / sum(Metodos1A$NOTA_MT))
   Diante dos resultados, ambos os p-valores indicaram que possivelmente as notas não seguem uma distribuição normal, devido ao p-valor menor que a significância 0,05. É importante ressaltar que isso não deslegitimiza o relatório, já que é trabalhado com as medias e proporções amostrais nos outros objetivos e pelo teorema central do limite devido a nossa amostra ser grande essas estatísticas tenderão a normal. 
 
 
-#### Objetivo 6
+#### Objetivo 6:
 
   Para obter a resposta desse objetivo, foi aplicado o teste de hipótese para duas amostras independentes pois apesar deles serem oriundas da mesma amostra não é possível uma escola ser considerada rural ou urbana ao mesmo tempo, mantendo a independência entre os dois. Supondo que são igualmente distribuidos foi considerado a hipótese inicial que o desempenho médio entre os dois espaços teriam o mesmo desempenho médio e o espaço urbano possuindo maior média comparado com a rural sendo a hipótese alternativa. 
   
@@ -1079,7 +1094,7 @@ t.test(Metodos1A$NOTA_MT[Metodos1A$LOCAL == "Urbana"],Metodos1$NOTA_MT[Metodos1A
   Analisando os resultados, na amostra de 200 foi encontrado evidências de uma diferença das notas dependendo do local, enquanto na amostra de 50 o p valor encontrado é  maior que a significância de 0,05, indicando uma não relação. Portanto, o tamanho menor da segunda amostra pode estar influenciando o resultado, apesar disso, a estatistica do teste em ambos foi positiva, indicando que a media urbana foi maior que a rural em ambos os casos.
 
 
-#### Objetivo 7
+#### Objetivo 7:
 
   Neste caso é importante observar que se trata da busca de uma correlação entre amostras dependentes, já que ocorre a comparação de resultados da mesma escola. Para evitar os problemas por causa dessa dependência, foi utilizado o teste pareado com a suposição que a diferença da nota de lingua portuguesa com a nota de matemática é igual a 0 para a hipotese nula e para a alternativa a que essa diferença seria diferente de 0.
 
@@ -1093,11 +1108,10 @@ t.test(Metodos1A$NOTA_LP, Metodos1A$NOTA_MT,var.equal = FALSE, paired = TRUE)
   Diante dos dados apresentados, foi encontrado um p-valor menor que a significância de 0,05 em ambas as amostras e uma estatística do teste negativa. Portanto, há evidências de uma diferença significativa em que a nota de matemática é maior que a de lingua portuguesa. 
 
 
-#### Objetivo 8
+#### Objetivo 8:
 
-*Comparar a proporção de escolas que menos de 75% de seus estudantes participaram da Prova segundo:
+  
 
-Local da escola; Região de localização da escola.
 
 ```{r, echo=FALSE}
 #**OBJETIVO 8**
@@ -1134,39 +1148,69 @@ part75D <- dados %>%
 
 part75A <- amostra %>%
   pull(part75)
+```
 
+  Para uma análise preliminar foram feitas as tabelas com as regiões e o local de onde menos de 75% da escola fez a Prova Brasil, sendo em sua maioria escolas Urbanas das regiões Nordeste e Sudeste.
+
+```{r, echo=FALSE}
 tabela1D <- table(part75D, Dlocal)
 tabela1D
 
 tabela1A <- table(part75A, Alocal)
 tabela1A
 
-# h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos e mais é igual entre os locais
-# h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos e mais é diferente entre os locais
+```
+
+  Para complementar a análise preliminar fizemos as tabelas acima para focar primeiramente em saber se tem alguma relação na proporção de escolas em que menos de 75% dos estudantes fizeram a prova e a localização da escola.
+
+```{r, echo=FALSE}
+# h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é igual entre os locais
+# h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é diferente entre os locais
 chisq.test(tabela1D)
 chisq.test(tabela1A)
-# Ele vai smp dar a mensagem de aviso
-# conclusao: não encontramos evidencias para acreditar que a proporcao de esculas nos locais muda entre as escolas com mais e menos de 75% de inscritos
+# conclusao: não encontramos evidencias para acreditar que a proporcao de escolas nos locais muda entre as escolas com mais e menos de 75% de inscritos
+```
+
+  Sendo:
+h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é igual entre os locais
+h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos diferente entre os locais
+  Chegamos a conclusão de que não temos evidencias para acreditar que a proporção de escolas nos locais muda entre as escolas com mais e menos de 75% de inscritos
+
+
+```{r, echo=FALSE}
 
 tabela2D <- table(part75D, Dregiao)
 tabela2D
 
 tabela2A <- table(part75A, Aregiao)
 tabela2A
+```
 
+  Com as tabelas acima temos indicios de que tenha sim uma relação na proporção de escolas em que menos de 75% dos estudantes fizeram a prova e a região da escola, fazendo o teste de hipotese para confirmar.
+
+
+```{r, echo=FALSE}
+# h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é igual entre as regiões
+# h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é diferente entre as regiões
 chisq.test(tabela2D)
 chisq.test(tabela2A)
 # conclusao: nao rejeitamos H0, acreditamos que as proporcoes sejam iguais
 
 ```
 
+  Sendo:
+h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é maior ou igual entre as localizações
+h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é menor entre as localizações
+  Chegamos a conclusão de que as proporções de escolas em que menos de 75%  
 
-#### Objetivo 9
+
+#### Objetivo 9:
+  
   Verificar se :
 
 * a. Região e categoria administrativa estão associadas;
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE}
 Metodos1$ADM <- droplevels(Metodos1$ADM)
 tabelaAdmReg <-table(Metodos1$ADM,Metodos1$REG)
 print(tabelaAdmReg)
@@ -1176,7 +1220,7 @@ chisq.test(tabelaAdmReg)
 
 * b. Tamanho da escola e tamanho do município estão associados
 
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}
+```{r, echo=FALSE}
 tabelaEscMun <- table(Metodos1$TAM_MUN, Metodos1$TAM_ESCOLA)
 print(tabelaEscMun)
 chisq.test(tabelaEscMun)
@@ -1185,16 +1229,15 @@ chisq.test(tabelaEscMun)
   Portanto, foi encontrado um p-valor baixo tanto na letra a quanto na b considerando em ambos uma significancia de 0,05. Logo, há evidências que existe uma associação significativa entre o tamanho da escola e do municipio e entre a região e a categoria administrativa, no entanto, o teste indica apenas essa associação, ele não é capaz de indicar se essa associação é positiva ou negativa. 
 
 
-#### Objetivo 10
+#### Objetivo 10:
 
-* Verificar se a nota em LP é um bom indicador para predizer a nota existe em MT, ou seja se estão associadas
+  Para verificar se a nota em Lingua Portuguesa é um indicador para predizer a nota de Matemática, fizemos gráficos para visualizar melhor os dados e mostrar visualmente a correlação, e um teste de hipotese para o indicador
 
-
-```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico das notas de matematica eportugues para as amostras de tamanho $n$"}
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="Gráfico de disperção das notas para as amostras de tamanho $n$"}
 #**OBJETIVO 10**
 
 Dfit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
-# summary(fit) # Não colocar esse summary pq vcs nao vao saber interpretar a regressao
+# summary(fit)
 
 
 dados %>%
@@ -1213,14 +1256,22 @@ amostra %>%
   geom_abline(slope = Afit$coefficients[2], intercept = Afit$coefficients[1], 
               color = "black") +
   labs(y= "Nota de Lingua Portugesa", x= "Nota de Matematica")
+```
 
+  Podemos observar uma correlação linear entre as notas, dando um destaque para o gráfico de 200 amostras por facilitar essa visualização.
 
+```{r, echo=FALSE}
 
 cor.test(dados$NOTA_MT, dados$NOTA_LP, alternative="two.sided", method="pearson", conf.level=1-alpha)
 cor.test(amostra$NOTA_MT, amostra$NOTA_LP, alternative="two.sided", method="pearson", conf.level=1-alpha)
 # conclusao: Rejeitamos H0, ou seja, temos fortes indicios de que a correlação é diferente de zero
 
 ```
+
+Sendo:
+h0: correlação entre as notas é igual à zero
+h1: correlação entre as notas é diferente de zero
+  Chegamos a conclusão de que temos fortes indícios de que a correlação existe, tendo em vista que em ambas as amostras ela foi de 0,9314.
 
 ## Conclusão:
 

@@ -585,12 +585,11 @@ tabela1D
 tabela1A <- table(part75A, Alocal)
 tabela1A
 
-# h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos e mais é igual entre os locais
-# h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos e mais é diferente entre os locais
+# h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é igual entre os locais
+# h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é diferente entre os locais
 chisq.test(tabela1D)
 chisq.test(tabela1A)
-# Ele vai smp dar a mensagem de aviso
-# conclusao: não encontramos evidencias para acreditar que a proporcao de esculas nos locais muda entre as escolas com mais e menos de 75% de inscritos
+# conclusao: não encontramos evidencias para acreditar que a proporcao de escolas nos locais muda entre as escolas com mais e menos de 75% de inscritos
 
 tabela2D <- table(part75D, Dregiao)
 tabela2D
@@ -598,10 +597,12 @@ tabela2D
 tabela2A <- table(part75A, Aregiao)
 tabela2A
 
+# h0: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é igual entre as regiões
+# h1: as proporcoes entre escolas que tiveram menos de 75% de alunos inscritos é diferente entre as regiões
 chisq.test(tabela2D)
 chisq.test(tabela2A)
 # conclusao: nao rejeitamos H0, acreditamos que as proporcoes sejam iguais
-
+?chisq.test
 
 ################################################################################
 ################################################################################
@@ -610,7 +611,6 @@ chisq.test(tabela2A)
 #**Verificar se a nota em LP é um bom indicador para predizer a nota existe em MT, ou**
 #**seja se estão associadas**
 Dfit <- lm(NOTA_MT ~ NOTA_LP,  data = dados)
-# summary(fit) # Não colocar esse summary pq vcs nao vao saber interpretar a regressao
 
 dados %>%
   ggplot() +
