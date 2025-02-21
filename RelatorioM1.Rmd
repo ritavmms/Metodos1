@@ -89,6 +89,20 @@ dados$TAM_ESCOLA<- factor(dados$TAM_ESCOLA,
 set.seed(20242)
 amostra <- dados %>% 
   sample_n(size = 50)
+
+#Variação do nome das variáveis
+Metodos1<-readxl::read_xlsx("C:/Users/André/Downloads/Amostra_g04_Andre_Camila_Rita(1).xlsx")
+Metodos1$LOCAL <- factor(Metodos1$LOCAL,levels = c(1, 2), labels = c("Urbana", "Rural"))
+Metodos1$ADM<- factor(Metodos1$ADM, levels = c(1, 2, 3), labels = c("Federal", "Estadual", 
+                                                                    "Municipal"))
+Metodos1$TAM_MUN<- factor(Metodos1$TAM_MUN, levels = c(1, 2, 3, 4, 5), 
+                          labels = c("<20000 hab", "20000 a 49999 hab", "50000 a 99999 hab",
+                                     "100000 a 999999 hab", "1000000 ou mais"))
+Metodos1$TAM_ESCOLA<- factor(Metodos1$TAM_ESCOLA, levels = c(1, 2, 3, 4), 
+                             labels = c("<25", "25 a 49", "50 a 99","100 ou mais"))
+
+set.seed(20242)
+Metodos1A <-Metodos1 %>% sample_n(size=50)
 ```
 
 ### Análise das variáveis
@@ -547,14 +561,152 @@ amostra %>%
 * Apresente as variáveis categóricas em forma tabular e gráfica. Comente os resultados.
   
 ###### Região
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+#Tabela
+tabelaReg <- table(Metodos1$REG)
+
+tabelaReg <- addmargins(tabelaReg)
+
+names(tabelaReg)<-c("Centro Oeste", "Norte", "Nordeste", "Sul", "Sudeste", "Total")
+
+tabelaReg
+
+
+ggplot(data = Metodos1) +
+  geom_bar(aes(x = REG), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Regiões")
+
+#Amostral 
+tabelaRegA <- table(Metodos1A$REG)
+
+tabelaRegA <- addmargins(tabelaRegA)
+
+names(tabelaRegA)<-c("Centro Oeste", "Norte", "Nordeste", "Sul", "Sudeste", "Total")
+
+tabelaRegA
+
+ggplot(data = Metodos1A) +
+  geom_bar(aes(x = REG), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Regiões")
+
+
+```
+A distribuição das regiões mostram maior numero de observações oriundas do sudeste e nordeste por serem as regiões mais populosas do país.
 
 ###### Local
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+tabelaLCL <- table(Metodos1$LOCAL)
+
+tabelaLCL <- addmargins(tabelaLCL)
+
+names(tabelaLCL) <- c("Urbana", "Rural", "Total")
+tabelaLCL
+
+ggplot(data = Metodos1) +
+  geom_bar(aes(x = LOCAL), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Tipo de Local")
+
+#Amostra
+tabelaLCLA <- table(Metodos1A$LOCAL)
+
+tabelaLCLA <- addmargins(tabelaLCLA)
+
+names(tabelaLCLA) <- c("Urbana", "Rural", "Total")
+tabelaLCLA
+
+ggplot(data = Metodos1A) +
+  geom_bar(aes(x = LOCAL), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Tipo de Local")
+```
+Mais de 80 porcento da amostra é oriunda de locais considerados urbanos
 
 ###### Tamanho do município
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+tabelaMun <- table(Metodos1$TAM_MUN)
+
+tabelaMun <- addmargins(tabelaMun)
+
+names(tabelaMun) <- c("Menor que 20000 Habitantes", "20000 a 49999 habitantes","50000 a 99999 habitantes", "100000 a 999999 habitantes", "100000 ou mais", "Total")
+
+ggplot(data = Metodos1) +
+  geom_bar(aes(x = TAM_MUN), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Tamanho do Município")
+
+tabelaMun
+
+#Amostral
+tabelaMunA <- table(Metodos1A$TAM_MUN)
+
+tabelaMunA <- addmargins(tabelaMunA)
+
+names(tabelaMunA) <- c("Menor que 20000 Habitantes", "20000 a 49999 habitantes","50000 a 99999 habitantes", "100000 a 999999 habitantes", "100000 ou mais", "Total")
+
+ggplot(data = Metodos1A) +
+  geom_bar(aes(x = TAM_MUN), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Tamanho do Município")
+
+tabelaMunA
+
+```
 
 ###### Administração
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+tabelaADM <- table(Metodos1$ADM)
+
+tabelaADM <- addmargins(tabelaADM)
+
+names(tabelaADM) <- c("Estadual", "Municipal", "Total")
+
+ggplot(data = Metodos1) +
+  geom_bar(aes(x = ADM), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Gestão da Escola")
+
+tabelaADM
+
+#Amostral
+tabelaADMA <- table(Metodos1A$ADM)
+
+tabelaADMA <- addmargins(tabelaADMA)
+
+names(tabelaADMA) <- c("Estadual", "Municipal", "Total")
+
+ggplot(data = Metodos1A) +
+  geom_bar(aes(x = ADM), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Gestão da Escola")
+
+tabelaADMA
+
+
+```
+Mais de 60 porcento das escolas são geridas pelas redes municipais de ensino, vale ressaltar que não houve nenhuma observação vinda de escolas geridas pelo governo federal.
 
 ###### Tamanho da escola
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+tabelaEsc <- table(Metodos1$TAM_ESCOLA)
+
+tabelaEsc <- addmargins(tabelaEsc)
+
+
+tabelaEsc
+
+ggplot(data = Metodos1) +
+  geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Numero de alunos na escola")
+
+#Amostral
+tabelaEscA <- table(Metodos1A$TAM_ESCOLA)
+
+tabelaEscA <- addmargins(tabelaEscA)
+
+
+tabelaEscA
+
+ggplot(data = Metodos1A) +
+  geom_bar(aes(x = TAM_ESCOLA), fill= "#663399")+
+  labs(title = "", y= "Frequência", x= "Numero de alunos na escola")
+
+```
+
 
 ### Análise preliminar dos Objetivos
 * Fazer uma análise preliminar dos objetivos 2 a 10 (isto é, o que vocês esperam encontrar) com base na análise descritiva realizada.
@@ -677,9 +829,35 @@ p_test$estimate
 ```
 
 #### Objetivo 3
-
-```{r, echo=FALSE}
+* Estimar a proficiência média em Língua Portuguesa e em Matemática das escolas na Prova Brasil em 2011
+Proficiência média em Lingua Portuguesa :
+Para estimar a proficiência média foi utilizado intervalos de confiança com uma confiança de 95% sobre os resultados de desempenho médio nas provas de lingua portuguesa e matemática. Foi utilizado essa técnica pois não é possivel dar um valor certo para essas proficiências mas o intervalo de confiança resulta uma faixa de valores onde a verdadeira média se encontra.
+* Proficiência média em Lingua Portuguesa pela amostra aleatória inicial
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+t.test(Metodos1$NOTA_LP, conf.level = 0.95)
 ```
+* Estimando pela amostra aleatória de 50 observações
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+t.test(Metodos1A$NOTA_LP, conf.level = 0.95 )
+```
+* Proficiência média em Matemática pela amostra aleatória inicial
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+t.test(Metodos1$NOTA_MT, conf.level = 0.95 )
+```
+* Proficiência média em Matemática pela amostra aleatória de 50 observações
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+t.test(Metodos1A$NOTA_MT, conf.level = 0.95 )
+```
+  Os resultados indicam que as notas possuem os seguintes intervalos : 
+* lingua portuguesa 
+** Amostra de 200 : 181 e 187
+** Amostra de 50 : 177 e 190 
+
+* Matemática
+** Amostra de 200: 200 e 207
+** Amostra de 50: 196 a 209
+  
+  Note que para a amostra de 50 os intervalos são maiores devido o menor tamanho da amostra mas que ainda mantem a faixa de valores encontrada inicialmente com a amostra aleatória inicial. 
 
 #### Objetivo 4
 
@@ -705,19 +883,105 @@ t.test(amostra$NOTA_MT, mu=204.3, alternative = "greater", conf.level = 1-alpha)
 ```
 
 #### Objetivo 5
+* Verificar se é possível afirmar que as notas em Língua Portuguesa e em Matemática são normalmente
+distribuídas.
+Para verificar se essas notas seguem a distribuição normal, foi feito o teste de Aderência. A partir disso, é considerado que para a hipotese nula seja satisfeita, os valores das notas devem seguir a distribuição normal com a media e variância encontrada pela amostra.
+* Histogramas e testes para as notas em Lingua Portuguesa :
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+dados %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_LP,
+                     y = after_stat(density)), 
+                 fill = "#663399", 
+                 alpha = 0.9, 
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_LP), sd = sd(dados$NOTA_LP)), 
+                linewidth = 1) +
+  labs(title = "", y= "Densidade", x= "Nota Lingua Portugesa")
 
-```{r, echo=FALSE}
+amostra %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_LP,
+                     y = after_stat(density)), 
+                 fill = "#663399", 
+                 alpha = 0.9, 
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_LP), sd = sd(amostra$NOTA_LP)), 
+                linewidth = 1) +
+  labs(title = "", y= "Densidade", x= "Nota Lingua Portuguesa")
+
+normalPort <- rnorm(200, mean = mean(Metodos1$NOTA_LP), sd = sd(Metodos1$NOTA_LP))
+chisq.test(normalPort, p = Metodos1$NOTA_LP / sum(Metodos1$NOTA_LP))
+
+normalPortA <- rnorm(50, mean = mean(Metodos1A$NOTA_LP), sd = sd(Metodos1A$NOTA_LP))
+chisq.test(normalPortA, p = Metodos1A$NOTA_LP / sum(Metodos1A$NOTA_LP))
 ```
+* Teste para as notas em Matemática : 
+
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+#Histograma
+media = mean(dados$NOTA_MT)
+desvio  = sd(dados$NOTA_MT)
+dados %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_MT,
+                     y = after_stat(density)),
+                 fill = "#663399",
+                 alpha = 0.9,
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(dados$NOTA_MT), sd = sd(dados$NOTA_MT)), 
+                linewidth = 1)+
+  labs(title = "", y= "Densidade", x= "Nota Matematica")
+
+media = mean(amostra$NOTA_MT)
+desvio  = sd(amostra$NOTA_MT)
+amostra %>%
+  ggplot() +
+  geom_histogram(aes(x = NOTA_MT,
+                     y = after_stat(density)),
+                 fill = "#663399",
+                 alpha = 0.9,
+                 bins = 10) +
+  geom_function(fun = \(x)dnorm(x, mean = mean(amostra$NOTA_MT), sd = sd(amostra$NOTA_MT)), 
+                linewidth = 1)+
+  labs(title = "", y= "Densidade", x= "Nota Matematica")
+
+
+normalMt <- rnorm(200, mean = mean(Metodos1$NOTA_MT), sd = sd(Metodos1$NOTA_MT))
+chisq.test(normalMt, p = Metodos1$NOTA_MT / sum(Metodos1$NOTA_MT))
+
+normalMtA <- rnorm(50, mean = mean(Metodos1A$NOTA_MT), sd = sd(Metodos1A$NOTA_MT))
+chisq.test(normalMtA, p = Metodos1A$NOTA_MT / sum(Metodos1A$NOTA_MT))
+```
+Diante dos resultados, ambos os p-valores indicaram que possivelmente as notas não seguem uma distribuição normal, devido ao p-valor menor que a significância 0,05. É importante ressaltar que isso não deslegitimiza o relatório, já que é trabalhado com as medias e proporções amostrais nos outros objetivos e pelo teorema central do limite devido a nossa amostra ser grande essas estatísticas tenderão a normal. 
 
 #### Objetivo 6
-
-```{r, echo=FALSE}
+* Comparar a proficiência média em Matemática segundo o local da escola. A proficiência em
+Matemática é maior em escolas urbanas?
+Para obter a resposta desse objetivo, foi aplicado o teste de hipótese para duas amostras independentes pois apesar deles serem oriundas da mesma amostra não é possível uma escola ser considerada rural ou urbana ao mesmo tempo, mantendo a independência entre os dois. Supondo que são igualmente distribuidos foi considerado a hipótese inicial que o desempenho médio entre os dois espaços teriam o mesmo desempenho médio e o espaço urbano possuindo maior média comparado com a rural sendo a hipótese alternativa. 
+Na amostra de 200 :
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+t.test(Metodos1$NOTA_MT[Metodos1$LOCAL == "Urbana"],Metodos1$NOTA_MT[Metodos1$LOCAL == "Rural"],  var.equal=FALSE, alternative = "greater" )
 ```
+Na amostra de 50 :
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+t.test(Metodos1A$NOTA_MT[Metodos1A$LOCAL == "Urbana"],Metodos1$NOTA_MT[Metodos1A$LOCAL == "Rural"],  var.equal=FALSE, alternative = "greater" )
+```
+Analisando os resultados, na amostra de 200 foi encontrado evidências de uma diferença das notas dependendo do local, enquanto na amostra de 50 o p valor encontrado é  maior que a significância de 0,05, indicando uma não relação. Portanto, o tamanho menor da segunda amostra pode estar influenciando o resultado, apesar disso, a estatistica do teste em ambos foi positiva, indicando que a media urbana foi maior que a rural em ambos os casos.
+
 
 #### Objetivo 7
-
-```{r, echo=FALSE}
+* Verificar se existe diferença significativa entre as notas de Língua Portuguesa e Matemática.
+Neste caso é importante observar que se trata da busca de uma correlação entre amostras dependentes, já que ocorre a comparação de resultados da mesma escola. Para evitar os problemas por causa dessa dependência, foi utilizado o teste pareado com a suposição que a diferença da nota de lingua portuguesa com a nota de matemática é igual a 0 para a hipotese nula e para a alternativa a que essa diferença seria diferente de 0.
+Na amostra de 200 :
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+t.test(Metodos1$NOTA_LP, Metodos1$NOTA_MT, var.equal = FALSE, paired = TRUE)
 ```
+Na amostra de 50 :
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+t.test(Metodos1A$NOTA_LP, Metodos1A$NOTA_MT,var.equal = FALSE, paired = TRUE)
+```
+Diante dos dados apresentados, foi encontrado um p-valor menor que a significância de 0,05 em ambas as amostras e uma estatística do teste negativa. Portanto, há evidências de uma diferença significativa em que a nota de matemática é maior que a de lingua portuguesa. 
 
 #### Objetivo 8
 
@@ -787,9 +1051,26 @@ chisq.test(tabela2A)
 ```
 
 #### Objetivo 9
+* verificar se :
 
-```{r, echo=FALSE}
+** a. Região e categoria administrativa estão associadas;
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+Metodos1$ADM <- droplevels(Metodos1$ADM)
+tabelaAdmReg <-table(Metodos1$ADM,Metodos1$REG)
+print(tabelaAdmReg)
+chisq.test(tabelaAdmReg)
 ```
+
+
+** b. Tamanho da escola e tamanho do município estão associados
+```{r, echo=FALSE, out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.show='hold', fig.align='center', fig.subcap=c("n = 200", "n = 50"), fig.cap="titulo"}}
+tabelaEscMun <- table(Metodos1$TAM_MUN, Metodos1$TAM_ESCOLA)
+print(tabelaEscMun)
+chisq.test(tabelaEscMun)
+```
+  Em ambos os tópicos é tratado sobre a relação entre duas variáveis categóricas, para isso foi colocado em uma tabela contigência as duas variáveis requisitadas para distribuir a frequência de cada caso. A partir disso, foi utilizado o teste de independência para indicar a existência ou não de associação entre as variavéis. Vale ressaltar, que não é possível a utilização de um teste de homogeneidade devido a maneira que os dados foram coletados.
+  Portanto, foi encontrado um p-valor baixo tanto na letra a quanto na b considerando em ambos uma significancia de 0,05. Logo, há evidências que existe uma associação significativa entre o tamanho da escola e do municipio e entre a região e a categoria administrativa, no entanto, o teste indica apenas essa associação, ele não é capaz de indicar se essa associação é positiva ou negativa. 
+
 
 #### Objetivo 10
 
